@@ -33,14 +33,13 @@ const App = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             {/* Logo */}
-            <div className="flex flex-col">
-              <span className="text-2xl font-bold tracking-tight text-slate-800">
-                Paradise Crew
-              </span>
-              <span className="text-xs tracking-widest font-medium uppercase text-slate-500">
-                Tech & Hospitality
-              </span>
-            </div>
+            <a href="#home" className="flex items-center">
+              <img
+                src="/PARADISE CREW.png"
+                alt="Paradise Crew Logo"
+                className="h-10 md:h-12 w-auto object-contain"
+              />
+            </a>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
@@ -527,12 +526,11 @@ const App = () => {
       <footer className="bg-slate-900 py-12 border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-400">
           <div className="flex flex-col items-center justify-center mb-6">
-            <span className="text-xl font-bold text-white tracking-tight mb-1">
-              Paradise Crew
-            </span>
-            <span className="text-[10px] tracking-widest uppercase">
-              Tech & Hospitality
-            </span>
+            <img
+              src="/PARADISE CREW.png"
+              alt="Paradise Crew Logo"
+              className="h-10 w-auto opacity-75 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+            />
           </div>
           <p className="text-sm border-t border-slate-800 pt-6">
             © {new Date().getFullYear()} Paradise Crew Tech & Hospitality. All

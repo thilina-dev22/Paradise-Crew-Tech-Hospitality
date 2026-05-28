@@ -1,14 +1,14 @@
 ﻿@import "tailwindcss";
 
 @theme {
-  --color-ocean-900: #064e3b;
-  --color-ocean-800: #065f46;
-  --color-ocean-700: #047857;
-  --color-ocean-600: #059669;
+  --color-ocean-900: #024173;
+  --color-ocean-800: #035594;
+  --color-ocean-700: #046cb8;
+  --color-ocean-600: #057ecc;
   
-  --color-sand-500: #d4af37;
-  --color-sand-300: #fde68a;
-  --color-sand-100: #fef3c7;
+  --color-sand-500: #01d8ec;
+  --color-sand-300: #eaebef;
+  --color-sand-100: #f8f9fb;
   
   --font-sans: "Inter", "sans-serif";
 }
