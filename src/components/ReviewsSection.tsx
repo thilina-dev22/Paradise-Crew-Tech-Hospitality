@@ -12,7 +12,7 @@ const reviews: Review[] = [
   {
     quote:
       "Since partnering with Paradise Crew, our direct bookings have skyrocketed. We reduced our reliance on OTA platforms and increased our profit margins by over 30% within the first six months.",
-    name: "Sarah Jenkins",
+    name: "Pasindu Deshan",
     role: "Owner, Azure Villa Retreat",
     initials: "SJ",
     avatarClass: "bg-ocean-100 text-ocean-800",
@@ -20,7 +20,7 @@ const reviews: Review[] = [
   {
     quote:
       "The custom booking engine they built for our boutique hotel is flawless. It perfectly captures our brand's vibe while making the reservation process incredibly smooth for our guests.",
-    name: "Marcus Rodriguez",
+    name: "Nimal Deshantha",
     role: "Director, The Palms Resort",
     initials: "MR",
     avatarClass: "bg-sand-200 text-sand-800",
@@ -28,7 +28,7 @@ const reviews: Review[] = [
   {
     quote:
       "What sets Paradise Crew apart is their ground-level hospitality experience. They don't just write code; they understand the nuances of managing a property. An invaluable partnership.",
-    name: "Elena Lin",
+    name: "Priyashan Pushpakumara",
     role: "Manager, Sunset Horizon",
     initials: "EL",
     avatarClass: "bg-slate-100 text-slate-700",

@@ -1,6 +1,55 @@
-import { Key } from "lucide-react";
+import { useState } from "react";
+import emailjs from "@emailjs/browser";
+import { Key, Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+
+type FormStatus = "idle" | "sending" | "success" | "error";
+
+interface FormData {
+  name: string;
+  email: string;
+  businessType: string;
+  message: string;
+}
 
 const ContactSection = () => {
+  const [form, setForm] = useState<FormData>({
+    name: "",
+    email: "",
+    businessType: "",
+    message: "",
+  });
+  const [status, setStatus] = useState<FormStatus>("idle");
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("sending");
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: form.name,
+          from_email: form.email,
+          business_type: form.businessType,
+          message: form.message,
+          to_email: "hello@paradisecrew.site",
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+      setStatus("success");
+      setForm({ name: "", email: "", businessType: "", message: "" });
+    } catch {
+      setStatus("error");
+    }
+  };
+
   return (
     <section
       id="contact"
@@ -18,7 +67,10 @@ const ContactSection = () => {
             </p>
 
             <div className="space-y-6">
-              <div className="flex items-center group">
+              <a
+                href="mailto:hello@paradisecrew.site"
+                className="flex items-center group"
+              >
                 <div className="w-12 h-12 bg-slate-50 flex items-center justify-center rounded-full mr-4 group-hover:bg-ocean-50 transition-colors">
                   <Key
                     size={20}
@@ -27,11 +79,11 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <p className="text-sm text-slate-500 font-medium">Email Us</p>
-                  <p className="text-lg font-bold text-slate-900">
-                    hello@paradisecrew.com
+                  <p className="text-lg font-bold text-slate-900 group-hover:text-ocean-700 transition-colors">
+                    hello@paradisecrew.site
                   </p>
                 </div>
-              </div>
+              </a>
 
               <a
                 href="https://wa.me/94762825336"
@@ -61,56 +113,135 @@ const ContactSection = () => {
           </div>
 
           <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-            <form className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all outline-none"
-                  placeholder="Your name"
-                />
+            {status === "success" ? (
+              <div className="flex flex-col items-center justify-center h-full text-center py-12 gap-4">
+                <CheckCircle2 size={56} className="text-green-500" />
+                <h3 className="text-xl font-bold text-slate-900">
+                  Message Sent!
+                </h3>
+                <p className="text-slate-500 max-w-xs">
+                  Thanks for reaching out. We'll get back to you at{" "}
+                  <span className="font-medium text-slate-700">{form.email || "your email"}</span>{" "}
+                  within 24 hours.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setStatus("idle")}
+                  className="mt-2 text-sm text-ocean-700 hover:text-ocean-900 font-medium underline underline-offset-2"
+                >
+                  Send another message
+                </button>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all outline-none"
-                  placeholder="your@email.com"
-                />
-              </div>
-              <div>
-                <label htmlFor="business-type" className="block text-sm font-medium text-slate-700 mb-2">
-                  Business Type
-                </label>
-                <select id="business-type" className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all outline-none bg-white">
-                  <option>Select one...</option>
-                  <option>Villa Owner</option>
-                  <option>Boutique Hotel</option>
-                  <option>Software Request</option>
-                  <option>Other</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Message
-                </label>
-                <textarea
-                  rows={4}
-                  className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all outline-none resize-none"
-                  placeholder="How can we help?"
-                ></textarea>
-              </div>
-              <button
-                type="button"
-                className="w-full py-4 bg-ocean-800 text-white rounded-lg hover:bg-ocean-700 transition-colors font-bold shadow-md hover:shadow-xl"
-              >
-                Send Inquiry
-              </button>
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-slate-700 mb-2"
+                  >
+                    Name
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    value={form.name}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all outline-none"
+                    placeholder="Your name"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-slate-700 mb-2"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    value={form.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all outline-none"
+                    placeholder="your@email.com"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="businessType"
+                    className="block text-sm font-medium text-slate-700 mb-2"
+                  >
+                    Business Type
+                  </label>
+                  <select
+                    id="businessType"
+                    name="businessType"
+                    required
+                    value={form.businessType}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all outline-none bg-white"
+                  >
+                    <option value="" disabled>
+                      Select one...
+                    </option>
+                    <option>Villa Owner</option>
+                    <option>Boutique Hotel</option>
+                    <option>Software Request</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium text-slate-700 mb-2"
+                  >
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={4}
+                    required
+                    value={form.message}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all outline-none resize-none"
+                    placeholder="How can we help?"
+                  />
+                </div>
+
+                {status === "error" && (
+                  <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+                    <AlertCircle size={16} className="shrink-0" />
+                    Something went wrong. Please try again or contact us directly.
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className="w-full py-4 bg-ocean-800 text-white rounded-lg hover:bg-ocean-700 active:bg-ocean-900 transition-colors font-bold shadow-md hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {status === "sending" ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      Sending…
+                    </>
+                  ) : (
+                    <>
+                      <Send size={18} />
+                      Send Inquiry
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>
