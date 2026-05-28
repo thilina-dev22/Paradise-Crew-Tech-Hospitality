@@ -10,7 +10,7 @@
   --color-sand-300: #eaebef;
   --color-sand-100: #f8f9fb;
   
-  --font-sans: "Inter", "sans-serif";
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
 }
 
 @layer base {

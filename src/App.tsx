@@ -10,6 +10,11 @@ import {
   Users,
   TrendingUp,
   Key,
+  Star,
+  Quote,
+  MessageSquare,
+  Share2,
+  Camera,
 } from "lucide-react";
 
 const App = () => {
@@ -25,7 +30,17 @@ const App = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 selection:bg-ocean-600 selection:text-white">
+    <div className="min-h-screen bg-slate-50 selection:bg-ocean-600 selection:text-white antialiased">
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+      `,
+        }}
+      />
+
       {/* Navigation */}
       <nav
         className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white/90 backdrop-blur shadow-sm py-4" : "bg-transparent py-4"}`}
@@ -35,12 +50,11 @@ const App = () => {
             {/* Logo */}
             <a href="#home" className="flex items-center">
               <img
-                src="/PARADISE CREW.png"
+                src="/Logo.png"
                 alt="Paradise Crew Logo"
-                className="h-10 md:h-12 w-auto object-contain"
+                className="h-24 md:h-32 w-auto object-contain py-2 md:py-0"
               />
             </a>
-
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
               <a
@@ -48,6 +62,12 @@ const App = () => {
                 className="hover:text-ocean-600 transition-colors"
               >
                 Home
+              </a>
+              <a
+                href="#reviews"
+                className="hover:text-ocean-600 transition-colors"
+              >
+                Reviews
               </a>
               <a
                 href="#services"
@@ -97,6 +117,13 @@ const App = () => {
                 className="block px-3 py-3 text-slate-800 hover:bg-slate-50 hover:text-ocean-600 rounded-md font-medium"
               >
                 Home
+              </a>
+              <a
+                href="#reviews"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block px-3 py-3 text-slate-800 hover:bg-slate-50 hover:text-ocean-600 rounded-md font-medium"
+              >
+                Reviews
               </a>
               <a
                 href="#services"
@@ -193,11 +220,19 @@ const App = () => {
                     <div className="h-2 w-1/2 bg-slate-200 rounded mb-3"></div>
                     <div className="h-2 w-5/6 bg-slate-200 rounded"></div>
                   </div>
-                  <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
-                    <span className="text-sm font-semibold text-slate-800">
-                      Booking Engine Active
-                    </span>
-                    <span className="text-ocean-600 font-bold">+124%</span>
+                  <div className="pt-4 border-t border-slate-100 space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-semibold text-slate-800">
+                        Direct Bookings
+                      </span>
+                      <span className="text-ocean-600 font-bold">+124%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-semibold text-slate-800">
+                        OTA Fees Saved
+                      </span>
+                      <span className="text-green-600 font-bold">$14,250</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -206,8 +241,82 @@ const App = () => {
         </div>
       </section>
 
+      {/* Integrations Banner */}
+      <section className="py-8 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">
+            Seamlessly integrating with your favorite platforms
+          </p>
+          <div className="flex flex-wrap justify-center items-end gap-10 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+            <div className="flex flex-col items-center gap-3">
+              <img
+                src="/booking.png"
+                alt="Booking.com"
+                className="h-6 md:h-8 object-contain"
+              />
+              <span className="text-sm font-semibold text-slate-800">
+                Booking.com
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-3">
+              <img
+                src="/airbnb.png"
+                alt="Airbnb"
+                className="h-8 md:h-10 object-contain"
+              />
+              <span className="text-sm font-semibold text-slate-800">
+                Airbnb
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-3">
+              <img
+                src="/stripe.png"
+                alt="Stripe"
+                className="h-8 md:h-10 object-contain"
+              />
+              <span className="text-sm font-semibold text-slate-800">
+                Stripe
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-3">
+              <img
+                src="/expedia.png"
+                alt="Expedia"
+                className="h-6 md:h-8 object-contain"
+              />
+              <span className="text-sm font-semibold text-slate-800">
+                Expedia
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-3">
+              <img
+                src="/agoda.png"
+                alt="Agoda"
+                className="h-6 md:h-8 object-contain"
+              />
+              <span className="text-sm font-semibold text-slate-800">
+                Agoda
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-3">
+              <img
+                src="/tripadvisor.png"
+                alt="TripAdvisor"
+                className="h-8 md:h-10 object-contain"
+              />
+              <span className="text-sm font-semibold text-slate-800">
+                TripAdvisor
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
-      <section id="services" className="py-20 bg-white">
+      <section
+        id="services"
+        className="py-20 bg-white scroll-mt-28 md:scroll-mt-32"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">
@@ -287,7 +396,10 @@ const App = () => {
       </section>
 
       {/* Packages Section */}
-      <section id="packages" className="py-20 bg-slate-50">
+      <section
+        id="packages"
+        className="py-20 bg-slate-50 scroll-mt-28 md:scroll-mt-32"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">
@@ -357,33 +469,171 @@ const App = () => {
               </button>
             </div>
 
-            {/* Placeholder Package 2 */}
-            <div className="bg-white rounded-2xl p-8 border border-slate-200 relative flex flex-col items-center justify-center text-center py-24 text-slate-400">
-              <h3 className="text-xl font-bold text-slate-300 mb-2">
+            {/* Package 2 */}
+            <div className="bg-white rounded-2xl p-8 border border-slate-200 flex flex-col">
+              <h3 className="text-xl font-bold text-slate-900 mb-2">
                 Scale & Automate
               </h3>
-              <span className="text-sm border border-slate-200 rounded-full px-3 py-1 mb-4">
-                Coming Soon
-              </span>
-              <p className="text-xs">Advanced PMS & Channel Manager Setup</p>
+              <div className="flex items-baseline mb-6">
+                <span className="text-4xl font-extrabold text-slate-900">
+                  75,000
+                </span>
+                <span className="text-lg text-slate-500 ml-2 font-medium">
+                  LKR
+                </span>
+              </div>
+              <p className="text-sm text-slate-500 mb-8 pb-8 border-b border-slate-100 flex-grow">
+                For established properties looking to optimize operations and
+                maximize direct revenue.
+              </p>
+
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start">
+                  <CheckCircle2
+                    size={18}
+                    className="text-ocean-600 mr-3 mt-1 flex-shrink-0"
+                  />
+                  <span className="text-slate-700 text-sm font-medium">
+                    <strong>Everything in Kickstart</strong>, plus:
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2
+                    size={18}
+                    className="text-ocean-600 mr-3 mt-1 flex-shrink-0"
+                  />
+                  <span className="text-slate-700 text-sm font-medium">
+                    Direct Booking Engine with Payment Gateway
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2
+                    size={18}
+                    className="text-ocean-600 mr-3 mt-1 flex-shrink-0"
+                  />
+                  <span className="text-slate-700 text-sm font-medium">
+                    Advanced PMS & Channel Manager Setup
+                  </span>
+                </li>
+              </ul>
+
+              <button className="w-full py-4 mt-auto rounded-lg bg-slate-800 text-white font-bold hover:bg-slate-700 transition-colors">
+                Choose Scale
+              </button>
             </div>
 
-            {/* Placeholder Package 3 */}
-            <div className="bg-white rounded-2xl p-8 border border-slate-200 relative hidden md:flex flex-col items-center justify-center text-center py-24 text-slate-400">
-              <h3 className="text-xl font-bold text-slate-300 mb-2">
-                Enterprise
+            {/* Package 3 */}
+            <div className="bg-white rounded-2xl p-8 border border-slate-200 flex flex-col">
+              <h3 className="text-xl font-bold text-slate-900 mb-2">
+                Full Management
               </h3>
-              <span className="text-sm border border-slate-200 rounded-full px-3 py-1 mb-4">
-                Custom
-              </span>
-              <p className="text-xs">Full Revenue & Property Management</p>
+              <div className="flex items-baseline mb-6">
+                <span className="text-4xl font-extrabold text-slate-900">
+                  Custom
+                </span>
+              </div>
+              <p className="text-sm text-slate-500 mb-8 pb-8 border-b border-slate-100 flex-grow">
+                A complete hands-off partnership. We run your property, you
+                collect the profits.
+              </p>
+
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start">
+                  <CheckCircle2
+                    size={18}
+                    className="text-ocean-600 mr-3 mt-1 flex-shrink-0"
+                  />
+                  <span className="text-slate-700 text-sm font-medium">
+                    Full Property & Revenue Management
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2
+                    size={18}
+                    className="text-ocean-600 mr-3 mt-1 flex-shrink-0"
+                  />
+                  <span className="text-slate-700 text-sm font-medium">
+                    All Technology Solutions Included
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2
+                    size={18}
+                    className="text-ocean-600 mr-3 mt-1 flex-shrink-0"
+                  />
+                  <span className="text-slate-700 text-sm font-medium">
+                    Staffing, Training & Guest Relations
+                  </span>
+                </li>
+              </ul>
+
+              <button className="w-full py-4 mt-auto rounded-lg bg-slate-800 text-white font-bold hover:bg-slate-700 transition-colors">
+                Contact for Quote
+              </button>
             </div>
           </div>
         </div>
       </section>
 
       {/* Our Approach Section */}
-      <section id="approach" className="py-20 bg-ocean-900 text-white">
+      <section
+        id="approach"
+        className="py-20 bg-ocean-900 text-white scroll-mt-28 md:scroll-mt-32"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Why Paradise Crew?
+            </h2>
+            <p className="text-ocean-200">
+              We don't just write code. We operate properties.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center p-6 bg-ocean-800 rounded-xl border border-ocean-700 hover:border-sand-500 transition-colors duration-300">
+              <div className="mx-auto w-16 h-16 bg-ocean-900 rounded-full flex items-center justify-center mb-6">
+                <Play size={28} className="text-sand-400" />
+              </div>
+              <h4 className="text-xl font-bold mb-3">The Live Feedback Loop</h4>
+              <p className="text-ocean-100 text-sm leading-relaxed">
+                We test every software feature in our own managed properties
+                first. If it doesn't increase revenue or save time for us, we
+                don't ship it to you.
+              </p>
+            </div>
+
+            <div className="text-center p-6 bg-ocean-800 rounded-xl border border-ocean-700 hover:border-sand-500 transition-colors duration-300">
+              <div className="mx-auto w-16 h-16 bg-ocean-900 rounded-full flex items-center justify-center mb-6">
+                <Users size={28} className="text-sand-400" />
+              </div>
+              <h4 className="text-xl font-bold mb-3">Local Expertise</h4>
+              <p className="text-ocean-100 text-sm leading-relaxed">
+                Deep understanding of the regional tourism market, seasonal
+                trends, and guest expectations in tropical destinations.
+              </p>
+            </div>
+
+            <div className="text-center p-6 bg-ocean-800 rounded-xl border border-ocean-700 hover:border-sand-500 transition-colors duration-300">
+              <div className="mx-auto w-16 h-16 bg-ocean-900 rounded-full flex items-center justify-center mb-6">
+                <TrendingUp size={28} className="text-sand-400" />
+              </div>
+              <h4 className="text-xl font-bold mb-3">Dual Revenue Focus</h4>
+              <p className="text-ocean-100 text-sm leading-relaxed">
+                We optimize your profiles for OTA visibility while
+                simultaneously driving high-margin direct bookings through your
+                Custom site.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Approach Section */}
+      <section
+        id="approach"
+        className="py-20 bg-ocean-900 text-white scroll-mt-28 md:scroll-mt-32"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl font-bold text-white mb-4">
@@ -433,8 +683,131 @@ const App = () => {
         </div>
       </section>
 
+      {/* Client Reviews Section */}
+      <section
+        id="reviews"
+        className="py-20 bg-slate-50 scroll-mt-28 md:scroll-mt-32"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">
+              What Our Partners Say
+            </h2>
+            <p className="text-slate-600">
+              Hear from property owners who have transformed their businesses
+              with our dual-expertise approach.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Review 1 */}
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 relative hover:-translate-y-1 transition-transform duration-300">
+              <Quote
+                size={40}
+                className="absolute top-6 right-6 text-ocean-100 opacity-50"
+              />
+              <div className="flex gap-1 mb-6 text-yellow-400">
+                <Star size={18} fill="currentColor" />
+                <Star size={18} fill="currentColor" />
+                <Star size={18} fill="currentColor" />
+                <Star size={18} fill="currentColor" />
+                <Star size={18} fill="currentColor" />
+              </div>
+              <p className="text-slate-700 mb-8 italic relative z-10 text-sm leading-relaxed">
+                "Since partnering with Paradise Crew, our direct bookings have
+                skyrocketed. We reduced our reliance on OTA platforms and
+                increased our profit margins by over 30% within the first six
+                months."
+              </p>
+              <div className="flex items-center gap-4 mt-auto">
+                <div className="w-12 h-12 bg-ocean-100 rounded-full flex items-center justify-center font-bold text-ocean-800">
+                  SJ
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 text-sm">
+                    Sarah Jenkins
+                  </h4>
+                  <p className="text-xs text-slate-500">
+                    Owner, Azure Villa Retreat
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Review 2 */}
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 relative hover:-translate-y-1 transition-transform duration-300">
+              <Quote
+                size={40}
+                className="absolute top-6 right-6 text-ocean-100 opacity-50"
+              />
+              <div className="flex gap-1 mb-6 text-yellow-400">
+                <Star size={18} fill="currentColor" />
+                <Star size={18} fill="currentColor" />
+                <Star size={18} fill="currentColor" />
+                <Star size={18} fill="currentColor" />
+                <Star size={18} fill="currentColor" />
+              </div>
+              <p className="text-slate-700 mb-8 italic relative z-10 text-sm leading-relaxed">
+                "The custom booking engine they built for our boutique hotel is
+                flawless. It perfectly captures our brand's vibe while making
+                the reservation process incredibly smooth for our guests."
+              </p>
+              <div className="flex items-center gap-4 mt-auto">
+                <div className="w-12 h-12 bg-sand-200 rounded-full flex items-center justify-center font-bold text-sand-800">
+                  MR
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 text-sm">
+                    Marcus Rodriguez
+                  </h4>
+                  <p className="text-xs text-slate-500">
+                    Director, The Palms Resort
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Review 3 */}
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 relative hover:-translate-y-1 transition-transform duration-300">
+              <Quote
+                size={40}
+                className="absolute top-6 right-6 text-ocean-100 opacity-50"
+              />
+              <div className="flex gap-1 mb-6 text-yellow-400">
+                <Star size={18} fill="currentColor" />
+                <Star size={18} fill="currentColor" />
+                <Star size={18} fill="currentColor" />
+                <Star size={18} fill="currentColor" />
+                <Star size={18} fill="currentColor" />
+              </div>
+              <p className="text-slate-700 mb-8 italic relative z-10 text-sm leading-relaxed">
+                "What sets Paradise Crew apart is their ground-level hospitality
+                experience. They don't just write code; they understand the
+                nuances of managing a property. An invaluable partnership."
+              </p>
+              <div className="flex items-center gap-4 mt-auto">
+                <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center font-bold text-slate-700">
+                  EL
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 text-sm">
+                    Elena Lin
+                  </h4>
+                  <p className="text-xs text-slate-500">
+                    Manager, Sunset Horizon
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-white">
+      <section
+        id="contact"
+        className="py-20 bg-white scroll-mt-28 md:scroll-mt-32"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16">
             <div>
@@ -460,6 +833,22 @@ const App = () => {
                     </p>
                     <p className="text-lg font-bold text-slate-900">
                       hello@paradisecrew.com
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center group">
+                  <div className="w-12 h-12 bg-slate-50 flex items-center justify-center rounded-full mr-4 group-hover:bg-green-50 transition-colors">
+                    <MessageSquare
+                      size={20}
+                      className="text-green-600 group-hover:text-green-800 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-500 font-medium">
+                      Chat on WhatsApp
+                    </p>
+                    <p className="text-lg font-bold text-slate-900">
+                      +94 77 123 4567
                     </p>
                   </div>
                 </div>
@@ -523,19 +912,141 @@ const App = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-900 py-12 border-t border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-400">
-          <div className="flex flex-col items-center justify-center mb-6">
-            <img
-              src="/PARADISE CREW.png"
-              alt="Paradise Crew Logo"
-              className="h-10 w-auto opacity-75 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300"
-            />
+      <footer className="bg-slate-900 text-slate-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            {/* About */}
+            <div className="md:col-span-1 lg:col-span-1">
+              <a href="#home">
+                <img
+                  src="/Logo.png"
+                  alt="Paradise Crew Logo"
+                  className="h-24 w-auto opacity-80 mb-4"
+                />
+              </a>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Fusing ground-level hospitality management with high-level
+                technical architecture to maximize your property's potential.
+              </p>
+            </div>
+
+            {/* Navigation */}
+            <div>
+              <h4 className="font-bold text-white uppercase tracking-wider text-sm mb-4">
+                Navigate
+              </h4>
+              <ul className="space-y-3">
+                <li>
+                  <a
+                    href="#home"
+                    className="hover:text-white transition-colors"
+                  >
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#services"
+                    className="hover:text-white transition-colors"
+                  >
+                    Services
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#packages"
+                    className="hover:text-white transition-colors"
+                  >
+                    Packages
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#reviews"
+                    className="hover:text-white transition-colors"
+                  >
+                    Reviews
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#approach"
+                    className="hover:text-white transition-colors"
+                  >
+                    Our Approach
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h4 className="font-bold text-white uppercase tracking-wider text-sm mb-4">
+                Connect
+              </h4>
+              <ul className="space-y-3 text-slate-400">
+                <li className="hover:text-white transition-colors">
+                  <a href="mailto:hello@paradisecrew.com">
+                    hello@paradisecrew.com
+                  </a>
+                </li>
+                <li className="hover:text-white transition-colors">
+                  <a
+                    href="https://wa.me/94771234567"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    +94 77 123 4567
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#contact"
+                    className="hover:text-white transition-colors"
+                  >
+                    Contact Form
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Social */}
+            <div>
+              <h4 className="font-bold text-white uppercase tracking-wider text-sm mb-4">
+                Follow Us
+              </h4>
+              <div className="flex space-x-4">
+                <a
+                  href="#"
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
+                  <Share2 size={24} />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
+                  <Camera size={24} />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
           </div>
-          <p className="text-sm border-t border-slate-800 pt-6">
-            © {new Date().getFullYear()} Paradise Crew Tech & Hospitality. All
-            rights reserved.
-          </p>
+        </div>
+        <div className="bg-slate-900 border-t border-slate-800 py-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
+            <p>
+              © {new Date().getFullYear()} Paradise Crew Tech & Hospitality. All
+              rights reserved.
+            </p>
+          </div>
         </div>
       </footer>
     </div>
