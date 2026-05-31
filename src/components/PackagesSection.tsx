@@ -53,6 +53,13 @@ const packages: Package[] = [
 ];
 
 const PackagesSection = () => {
+  const scrollToContact = () => {
+    document.getElementById("contact")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   return (
     <section
       id="packages"
@@ -91,13 +98,13 @@ const PackagesSection = () => {
                   <span className="text-lg text-slate-500 ml-2 font-medium">{pkg.currency}</span>
                 )}
               </div>
-              <p className="text-sm text-slate-500 mb-8 pb-8 border-b border-slate-100 flex-grow">
+              <p className="text-sm text-slate-500 mb-8 pb-8 border-b border-slate-100 grow">
                 {pkg.description}
               </p>
               <ul className="space-y-4 mb-8">
                 {pkg.features.map((feature) => (
                   <li key={feature} className="flex items-start">
-                    <CheckCircle2 size={18} className="text-ocean-600 mr-3 mt-1 flex-shrink-0" />
+                    <CheckCircle2 size={18} className="text-ocean-600 mr-3 mt-1 shrink-0" />
                     <span
                       className="text-slate-700 text-sm font-medium"
                       dangerouslySetInnerHTML={{
@@ -108,6 +115,8 @@ const PackagesSection = () => {
                 ))}
               </ul>
               <button
+                type="button"
+                onClick={scrollToContact}
                 className={`w-full py-4 mt-auto rounded-lg font-bold transition-colors ${
                   pkg.highlight
                     ? "bg-ocean-800 text-white hover:bg-ocean-700 shadow-md hover:shadow-xl"

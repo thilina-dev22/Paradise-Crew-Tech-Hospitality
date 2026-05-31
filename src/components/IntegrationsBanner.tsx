@@ -14,7 +14,7 @@ const IntegrationsBanner = () => {
         <p className="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">
           Seamlessly integrating with your favorite platforms
         </p>
-        <div className="flex flex-wrap justify-center items-end gap-10 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+        <div className="flex flex-wrap justify-center items-end gap-10 md:gap-16 transition-all duration-500">
           {integrations.map(({ src, alt, label, height }) => (
             <div key={alt} className="flex flex-col items-center gap-3">
               <img src={src} alt={alt} className={`${height} object-contain`} />
