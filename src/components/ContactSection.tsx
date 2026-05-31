@@ -35,11 +35,15 @@ const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("sending");
-    setErrorMessage("Something went wrong. Please try again or contact us directly.");
+    setErrorMessage(
+      "Something went wrong. Please try again or contact us directly.",
+    );
 
     if (!formspreeEndpoint) {
       setStatus("error");
-      setErrorMessage("Missing Formspree endpoint. Set VITE_FORMSPREE_ENDPOINT in your .env file.");
+      setErrorMessage(
+        "Missing Formspree endpoint. Set VITE_FORMSPREE_ENDPOINT in your .env file.",
+      );
       return;
     }
 
@@ -60,9 +64,10 @@ const ContactSection = () => {
         }),
       });
 
-      const payload = (await response.json().catch(() => null)) as
-        | { error?: string; message?: string }
-        | null;
+      const payload = (await response.json().catch(() => null)) as {
+        error?: string;
+        message?: string;
+      } | null;
 
       if (!response.ok) {
         throw new Error(
