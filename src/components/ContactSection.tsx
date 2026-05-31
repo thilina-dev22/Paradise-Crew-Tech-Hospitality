@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Key, Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import {
+  Key,
+  Send,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+  PhoneCall,
+} from "lucide-react";
 
 type FormStatus = "idle" | "sending" | "success" | "error";
 
@@ -93,22 +100,24 @@ const ContactSection = () => {
       className="py-20 bg-white scroll-mt-28 md:scroll-mt-32"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16">
-          <div>
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">
-              Let's Build Your Digital Property
-            </h2>
-            <p className="text-slate-600 mb-8 w-4/5">
-              Whether you need a new booking engine or full property management,
-              we're ready to elevate your hospitality business.
-            </p>
+        <div className="grid lg:grid-cols-2 gap-12 lg:items-start">
+          <div className="flex flex-col gap-8 lg:pr-6">
+            <div className="space-y-4">
+              <h2 className="text-3xl font-bold text-slate-900">
+                Let's Build Your Digital Property
+              </h2>
+              <p className="text-slate-600 max-w-xl">
+                Whether you need a new booking engine or full property
+                management, we're ready to elevate your hospitality business.
+              </p>
+            </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               <a
                 href="mailto:hello@paradisecrew.site"
                 className="flex items-center group"
               >
-                <div className="w-12 h-12 bg-slate-50 flex items-center justify-center rounded-full mr-4 group-hover:bg-ocean-50 transition-colors">
+                <div className="w-12 h-12 bg-slate-50 flex items-center justify-center rounded-full mr-4 shrink-0 group-hover:bg-ocean-50 transition-colors">
                   <Key
                     size={20}
                     className="text-ocean-700 group-hover:text-ocean-900 transition-colors"
@@ -122,30 +131,74 @@ const ContactSection = () => {
                 </div>
               </a>
 
-              <a
-                href="https://wa.me/94711700753"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-6 py-4 bg-[#25D366] hover:bg-[#1ebe5d] active:bg-[#17a84f] text-white font-bold rounded-xl shadow-md hover:shadow-lg hover:shadow-green-200 transition-all duration-200 group w-fit"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-6 h-6 shrink-0 group-hover:scale-110 transition-transform duration-200"
-                >
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.18 1.535 5.971L.057 23.25a.75.75 0 0 0 .916.948l5.453-1.453A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.693 9.693 0 0 1-4.953-1.356l-.355-.211-3.676.981.993-3.585-.232-.369A9.718 9.718 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z" />
-                </svg>
-                <div className="text-left">
-                  <p className="text-xs font-medium text-green-100 leading-none mb-0.5">
-                    Chat on WhatsApp
+              <a href="tel:+94711700753" className="flex items-center group">
+                <div className="w-12 h-12 bg-slate-50 flex items-center justify-center rounded-full mr-4 shrink-0 group-hover:bg-ocean-50 transition-colors">
+                  <PhoneCall
+                    size={20}
+                    className="text-ocean-700 group-hover:text-ocean-900 transition-colors"
+                  />
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 font-medium">
+                    Call Mobile
                   </p>
-                  <p className="text-base font-bold leading-none">
+                  <p className="text-lg font-bold text-slate-900 group-hover:text-ocean-700 transition-colors">
                     +94 71 170 0753
                   </p>
                 </div>
               </a>
+
+              <div className="flex w-full max-w-xs flex-col gap-3">
+                <a
+                  href="https://t.me/+94711700753"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full items-center gap-3 px-5 py-4 bg-[#0088cc] hover:bg-[#0077b5] active:bg-[#006699] text-white font-bold rounded-xl shadow-md hover:shadow-lg hover:shadow-sky-200 transition-all duration-200 group"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-6 h-6 shrink-0 group-hover:scale-110 transition-transform duration-200"
+                    aria-hidden="true"
+                  >
+                    <path d="M9.04 15.51 8.9 19.4c.43 0 .62-.19.84-.4l2.01-1.93 4.17 3.05c.76.42 1.3.2 1.5-.7l2.72-12.77h0c.24-1.1-.4-1.53-1.15-1.25L3.05 9.86c-1.06.41-1.04.99-.18 1.25l4.88 1.52 11.31-7.12c.53-.32 1.02-.14.62.22" />
+                  </svg>
+                  <div className="text-left">
+                    <p className="text-xs font-medium text-sky-100 leading-none mb-0.5">
+                      Chat on Telegram
+                    </p>
+                    <p className="text-sm font-bold leading-none">
+                      +94 71 170 0753
+                    </p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://wa.me/94711700753"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full items-center gap-3 px-5 py-4 bg-[#25D366] hover:bg-[#1ebe5d] active:bg-[#17a84f] text-white font-bold rounded-xl shadow-md hover:shadow-lg hover:shadow-green-200 transition-all duration-200 group"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-6 h-6 shrink-0 group-hover:scale-110 transition-transform duration-200"
+                  >
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+                    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.18 1.535 5.971L.057 23.25a.75.75 0 0 0 .916.948l5.453-1.453A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.693 9.693 0 0 1-4.953-1.356l-.355-.211-3.676.981.993-3.585-.232-.369A9.718 9.718 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z" />
+                  </svg>
+                  <div className="text-left">
+                    <p className="text-xs font-medium text-green-100 leading-none mb-0.5">
+                      Chat on WhatsApp
+                    </p>
+                    <p className="text-sm font-bold leading-none">
+                      +94 71 170 0753
+                    </p>
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
 
