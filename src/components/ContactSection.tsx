@@ -1,5 +1,4 @@
 import { useState } from "react";
-import emailjs from "@emailjs/browser";
 import { Key, Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 
 type FormStatus = "idle" | "sending" | "success" | "error";
@@ -19,9 +18,16 @@ const ContactSection = () => {
     message: "",
   });
   const [status, setStatus] = useState<FormStatus>("idle");
+  const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>(
+    "Something went wrong. Please try again or contact us directly.",
+  );
+  const formspreeEndpoint = import.meta.env.VITE_FORMSPREE_ENDPOINT || "";
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -29,23 +35,49 @@ const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("sending");
+    setErrorMessage("Something went wrong. Please try again or contact us directly.");
+
+    if (!formspreeEndpoint) {
+      setStatus("error");
+      setErrorMessage("Missing Formspree endpoint. Set VITE_FORMSPREE_ENDPOINT in your .env file.");
+      return;
+    }
 
     try {
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: form.name,
-          from_email: form.email,
-          business_type: form.businessType,
-          message: form.message,
-          to_email: "hello@paradisecrew.site",
+      const response = await fetch(formspreeEndpoint, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          businessType: form.businessType,
+          message: form.message,
+          _subject: `Contact Us: ${form.businessType} — ${form.name}`,
+          _replyto: form.email,
+        }),
+      });
+
+      const payload = (await response.json().catch(() => null)) as
+        | { error?: string; message?: string }
+        | null;
+
+      if (!response.ok) {
+        throw new Error(
+          payload?.error ?? payload?.message ?? "Formspree request failed.",
+        );
+      }
+
       setStatus("success");
+      setSubmittedEmail(form.email);
       setForm({ name: "", email: "", businessType: "", message: "" });
-    } catch {
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Contact request failed.";
+      setErrorMessage(message);
+      console.error("Contact form send error:", error);
       setStatus("error");
     }
   };
@@ -121,7 +153,9 @@ const ContactSection = () => {
                 </h3>
                 <p className="text-slate-500 max-w-xs">
                   Thanks for reaching out. We'll get back to you at{" "}
-                  <span className="font-medium text-slate-700">{form.email || "your email"}</span>{" "}
+                  <span className="font-medium text-slate-700">
+                    {submittedEmail || "your email"}
+                  </span>{" "}
                   within 24 hours.
                 </p>
                 <button
@@ -219,7 +253,7 @@ const ContactSection = () => {
                 {status === "error" && (
                   <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg px-4 py-3">
                     <AlertCircle size={16} className="shrink-0" />
-                    Something went wrong. Please try again or contact us directly.
+                    {errorMessage}
                   </div>
                 )}
 
