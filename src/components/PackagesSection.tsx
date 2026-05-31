@@ -91,11 +91,17 @@ const PackagesSection = () => {
                   Most Popular
                 </div>
               )}
-              <h3 className="text-xl font-bold text-slate-900 mb-2">{pkg.name}</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">
+                {pkg.name}
+              </h3>
               <div className="flex items-baseline mb-6">
-                <span className="text-4xl font-extrabold text-slate-900">{pkg.price}</span>
+                <span className="text-4xl font-extrabold text-slate-900">
+                  {pkg.price}
+                </span>
                 {pkg.currency && (
-                  <span className="text-lg text-slate-500 ml-2 font-medium">{pkg.currency}</span>
+                  <span className="text-lg text-slate-500 ml-2 font-medium">
+                    {pkg.currency}
+                  </span>
                 )}
               </div>
               <p className="text-sm text-slate-500 mb-8 pb-8 border-b border-slate-100 grow">
@@ -104,11 +110,17 @@ const PackagesSection = () => {
               <ul className="space-y-4 mb-8">
                 {pkg.features.map((feature) => (
                   <li key={feature} className="flex items-start">
-                    <CheckCircle2 size={18} className="text-ocean-600 mr-3 mt-1 shrink-0" />
+                    <CheckCircle2
+                      size={18}
+                      className="text-ocean-600 mr-3 mt-1 shrink-0"
+                    />
                     <span
                       className="text-slate-700 text-sm font-medium"
                       dangerouslySetInnerHTML={{
-                        __html: feature.replace("Everything in Kickstart", "<strong>Everything in Kickstart</strong>"),
+                        __html: feature.replace(
+                          "Everything in Kickstart",
+                          "<strong>Everything in Kickstart</strong>",
+                        ),
                       }}
                     />
                   </li>
