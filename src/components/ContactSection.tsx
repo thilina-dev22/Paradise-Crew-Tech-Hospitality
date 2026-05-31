@@ -123,7 +123,7 @@ const ContactSection = () => {
               </a>
 
               <a
-                href="https://wa.me/94762825336"
+                href="https://wa.me/94711700753"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 px-6 py-4 bg-[#25D366] hover:bg-[#1ebe5d] active:bg-[#17a84f] text-white font-bold rounded-xl shadow-md hover:shadow-lg hover:shadow-green-200 transition-all duration-200 group w-fit"
@@ -142,7 +142,7 @@ const ContactSection = () => {
                     Chat on WhatsApp
                   </p>
                   <p className="text-base font-bold leading-none">
-                    +94 76 282 5336
+                    +94 71 170 0753
                   </p>
                 </div>
               </a>
