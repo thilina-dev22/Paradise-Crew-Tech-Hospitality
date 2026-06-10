@@ -71,7 +71,7 @@ const Footer = () => {
             </h4>
             <div className="flex space-x-4">
               <a
-                href="#"
+                href="https://www.facebook.com/share/1EA2MhggzG/?mibextid=wwXIfr"
                 aria-label="Facebook"
                 className="text-slate-400 hover:text-white transition-colors"
               >
@@ -80,7 +80,7 @@ const Footer = () => {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/paradisecrew.site/"
                 aria-label="Instagram"
                 className="text-slate-400 hover:text-white transition-colors"
               >
