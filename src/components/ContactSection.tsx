@@ -24,12 +24,15 @@ const ContactSection: React.FC = () => {
     notes: "",
   });
 
-  // Web3Forms API key configured for info@paradisecrew.site
-  const WEB3FORMS_ACCESS_KEY = "dea70a9f-36be-47d0-acf9-c8e16f434ca3";
+  // Web3Forms API key loaded from environment variable VITE_WEB3FORMS_ACCESS_KEY
+  const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "";
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMessage(null);
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
@@ -42,7 +45,6 @@ const ContactSection: React.FC = () => {
           access_key: WEB3FORMS_ACCESS_KEY,
           subject: `⚡ New Project Lead: ${businessType} (${formData.name})`,
           from_name: "Paradise Crew Website Form",
-          to_email: "info@paradisecrew.site",
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
@@ -63,11 +65,11 @@ const ContactSection: React.FC = () => {
         });
       } else {
         console.error("Web3Forms error:", data);
-        setSubmitted(true);
+        setErrorMessage(data.message || "Failed to send proposal. Please contact us directly via WhatsApp or email.");
       }
     } catch (err) {
       console.error("Form submission error:", err);
-      setSubmitted(true);
+      setErrorMessage("Network error. Please try submitting again or reach out on WhatsApp.");
     } finally {
       setLoading(false);
     }
@@ -280,6 +282,12 @@ const ContactSection: React.FC = () => {
                       className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:border-ocean-500 focus:outline-none"
                     />
                   </div>
+
+                  {errorMessage && (
+                    <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-medium text-center">
+                      {errorMessage}
+                    </div>
+                  )}
 
                   <button
                     type="submit"
