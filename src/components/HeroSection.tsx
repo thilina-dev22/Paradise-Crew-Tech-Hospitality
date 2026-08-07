@@ -1,5 +1,8 @@
+import { Suspense, lazy } from "react";
 import { ChevronRight, Sparkles, Smartphone, Globe, Calculator } from "lucide-react";
-import Hero3DCanvas from "./Hero3DCanvas";
+
+// Three.js is ~600KB — only load it on desktop where the canvas is shown
+const Hero3DCanvas = lazy(() => import("./Hero3DCanvas"));
 
 const HeroSection = () => {
   return (
@@ -95,9 +98,13 @@ const HeroSection = () => {
 
           {/* Right Column: 3D Canvas + Info Card below — HIDDEN on mobile, shown lg+ */}
           <div className="hidden lg:flex lg:col-span-5 flex-col items-center gap-4">
-            {/* 3D WebGL Globe — full width, standalone */}
+            {/* 3D WebGL Globe — full width, standalone. Lazy loaded — Three.js won't download on mobile */}
             <div className="w-full">
-              <Hero3DCanvas />
+              <Suspense fallback={
+                <div className="w-full h-[260px] lg:h-[300px] rounded-xl bg-slate-900/40 border border-slate-800/50 animate-pulse" />
+              }>
+                <Hero3DCanvas />
+              </Suspense>
             </div>
 
             {/* Info Card below the globe */}
