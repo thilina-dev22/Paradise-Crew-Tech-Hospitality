@@ -1,10 +1,16 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 @theme {
+  --color-ocean-950: #031e36;
   --color-ocean-900: #024173;
   --color-ocean-800: #035594;
   --color-ocean-700: #046cb8;
   --color-ocean-600: #057ecc;
+  --color-ocean-500: #0ea5e9;
+  --color-ocean-400: #38bdf8;
+  --color-ocean-300: #7dd3fc;
+  --color-ocean-200: #bae6fd;
+  --color-ocean-100: #e0f2fe;
   
   --color-sand-500: #01d8ec;
   --color-sand-300: #eaebef;
@@ -15,7 +21,7 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 font-sans;
+    @apply bg-slate-950 text-slate-100 font-sans;
   }
 }
 

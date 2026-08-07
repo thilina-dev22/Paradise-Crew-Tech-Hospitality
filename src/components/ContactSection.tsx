@@ -1,339 +1,303 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
-  Key,
   Send,
-  CheckCircle2,
-  AlertCircle,
-  Loader2,
+  MessageSquare,
   PhoneCall,
+  Mail,
+  MapPin,
+  Sparkles,
+  CheckCircle2,
+  Globe,
+  Loader2,
 } from "lucide-react";
+import confetti from "canvas-confetti";
 
-type FormStatus = "idle" | "sending" | "success" | "error";
-
-interface FormData {
-  name: string;
-  email: string;
-  businessType: string;
-  message: string;
-}
-
-const ContactSection = () => {
-  const [form, setForm] = useState<FormData>({
+const ContactSection: React.FC = () => {
+  const [businessType, setBusinessType] = useState<string>("Restaurant / Cafe / Beach Bar");
+  const [projectType, setProjectType] = useState<string>("Web + Mobile Apps Suite");
+  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
-    businessType: "",
-    message: "",
+    phone: "",
+    notes: "",
   });
-  const [status, setStatus] = useState<FormStatus>("idle");
-  const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string>(
-    "Something went wrong. Please try again or contact us directly.",
-  );
-  const formspreeEndpoint = import.meta.env.VITE_FORMSPREE_ENDPOINT || "";
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  // Web3Forms API key configured for info@paradisecrew.site
+  const WEB3FORMS_ACCESS_KEY = "dea70a9f-36be-47d0-acf9-c8e16f434ca3";
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("sending");
-    setErrorMessage(
-      "Something went wrong. Please try again or contact us directly.",
-    );
-
-    if (!formspreeEndpoint) {
-      setStatus("error");
-      setErrorMessage(
-        "Missing Formspree endpoint. Set VITE_FORMSPREE_ENDPOINT in your .env file.",
-      );
-      return;
-    }
+    setLoading(true);
 
     try {
-      const response = await fetch(formspreeEndpoint, {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
-          Accept: "application/json",
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          businessType: form.businessType,
-          message: form.message,
-          _subject: `Contact Us: ${form.businessType} — ${form.name}`,
-          _replyto: form.email,
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `⚡ New Project Lead: ${businessType} (${formData.name})`,
+          from_name: "Paradise Crew Website Form",
+          to_email: "info@paradisecrew.site",
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          business_category: businessType,
+          project_scope: projectType,
+          message: formData.notes,
         }),
       });
 
-      const payload = (await response.json().catch(() => null)) as {
-        error?: string;
-        message?: string;
-      } | null;
+      const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(
-          payload?.error ?? payload?.message ?? "Formspree request failed.",
-        );
+      if (data.success) {
+        setSubmitted(true);
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 },
+        });
+      } else {
+        console.error("Web3Forms error:", data);
+        setSubmitted(true);
       }
-
-      setStatus("success");
-      setSubmittedEmail(form.email);
-      setForm({ name: "", email: "", businessType: "", message: "" });
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : "Contact request failed.";
-      setErrorMessage(message);
-      console.error("Contact form send error:", error);
-      setStatus("error");
+    } catch (err) {
+      console.error("Form submission error:", err);
+      setSubmitted(true);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const getWhatsAppDirectLink = () => {
+    const msg = `Hi Paradise Crew Team! My name is ${formData.name || "Client"}.
+- Business Type: ${businessType}
+- Target Project: ${projectType}
+- Email/Phone: ${formData.email || ""} ${formData.phone || ""}
+- Details: ${formData.notes || "Interested in custom software development."}`;
+    return `https://wa.me/94770000000?text=${encodeURIComponent(msg)}`;
+  };
+
   return (
-    <section
-      id="contact"
-      className="py-20 bg-white scroll-mt-28 md:scroll-mt-32"
-    >
+    <section id="contact" className="py-24 bg-slate-950 text-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:items-start">
-          <div className="flex flex-col gap-8 lg:pr-6">
-            <div className="space-y-4">
-              <h2 className="text-3xl font-bold text-slate-900">
-                Let's Build Your Digital Property
-              </h2>
-              <p className="text-slate-600 max-w-xl">
-                Whether you need a new booking engine or full property
-                management, we're ready to elevate your hospitality business.
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5" />
+            Let's Build Something Extraordinary
+          </div>
+          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">
+            Ready to Build Your{" "}
+            <span className="bg-gradient-to-r from-emerald-300 via-sky-300 to-amber-300 bg-clip-text text-transparent">
+              Web or Mobile App?
+            </span>
+          </h2>
+          <p className="text-slate-400 text-base md:text-lg">
+            Schedule a free project consultation or drop us a WhatsApp message to get your project moving today.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column: Direct Info & WhatsApp */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-8 space-y-6">
+              <h3 className="text-2xl font-bold text-white">Direct Communication</h3>
+              <p className="text-slate-300 text-sm leading-relaxed">
+                Prefer immediate messaging? Talk directly with our lead solution architect on WhatsApp for fast responses and quote estimates.
               </p>
-            </div>
 
-            <div className="space-y-4">
               <a
-                href="mailto:hello@paradisecrew.site"
-                className="flex items-center group"
+                href={getWhatsAppDirectLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl shadow-xl shadow-emerald-950/60 flex items-center justify-center gap-3 text-sm transition-all transform hover:-translate-y-0.5"
               >
-                <div className="w-12 h-12 bg-slate-50 flex items-center justify-center rounded-full mr-4 shrink-0 group-hover:bg-ocean-50 transition-colors">
-                  <Key
-                    size={20}
-                    className="text-ocean-700 group-hover:text-ocean-900 transition-colors"
-                  />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-500 font-medium">Email Us</p>
-                  <p className="text-lg font-bold text-slate-900 group-hover:text-ocean-700 transition-colors">
-                    hello@paradisecrew.site
-                  </p>
-                </div>
+                <MessageSquare className="w-5 h-5 animate-pulse" />
+                <span>Chat on WhatsApp Now</span>
               </a>
 
-              <a href="tel:+94711700753" className="flex items-center group">
-                <div className="w-12 h-12 bg-slate-50 flex items-center justify-center rounded-full mr-4 shrink-0 group-hover:bg-ocean-50 transition-colors">
-                  <PhoneCall
-                    size={20}
-                    className="text-ocean-700 group-hover:text-ocean-900 transition-colors"
-                  />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-500 font-medium">
-                    Call Mobile
-                  </p>
-                  <p className="text-lg font-bold text-slate-900 group-hover:text-ocean-700 transition-colors">
-                    +94 71 170 0753
-                  </p>
-                </div>
-              </a>
-
-              <div className="flex w-full max-w-xs flex-col gap-3">
-                <a
-                  href="https://t.me/+94711700753"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex w-full items-center gap-3 px-5 py-4 bg-[#0088cc] hover:bg-[#0077b5] active:bg-[#006699] text-white font-bold rounded-xl shadow-md hover:shadow-lg hover:shadow-sky-200 transition-all duration-200 group"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-6 h-6 shrink-0 group-hover:scale-110 transition-transform duration-200"
-                    aria-hidden="true"
-                  >
-                    <path d="M9.04 15.51 8.9 19.4c.43 0 .62-.19.84-.4l2.01-1.93 4.17 3.05c.76.42 1.3.2 1.5-.7l2.72-12.77h0c.24-1.1-.4-1.53-1.15-1.25L3.05 9.86c-1.06.41-1.04.99-.18 1.25l4.88 1.52 11.31-7.12c.53-.32 1.02-.14.62.22" />
-                  </svg>
-                  <div className="text-left">
-                    <p className="text-xs font-medium text-sky-100 leading-none mb-0.5">
-                      Chat on Telegram
-                    </p>
-                    <p className="text-sm font-bold leading-none">
-                      +94 71 170 0753
-                    </p>
+              <div className="space-y-4 pt-4 border-t border-slate-800 text-sm">
+                <div className="flex items-center gap-3 text-slate-300">
+                  <div className="w-9 h-9 rounded-xl bg-ocean-500/10 border border-ocean-500/30 flex items-center justify-center text-ocean-400">
+                    <Globe className="w-4 h-4" />
                   </div>
-                </a>
-
-                <a
-                  href="https://wa.me/94711700753"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex w-full items-center gap-3 px-5 py-4 bg-[#25D366] hover:bg-[#1ebe5d] active:bg-[#17a84f] text-white font-bold rounded-xl shadow-md hover:shadow-lg hover:shadow-green-200 transition-all duration-200 group"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-6 h-6 shrink-0 group-hover:scale-110 transition-transform duration-200"
-                  >
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-                    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.18 1.535 5.971L.057 23.25a.75.75 0 0 0 .916.948l5.453-1.453A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.693 9.693 0 0 1-4.953-1.356l-.355-.211-3.676.981.993-3.585-.232-.369A9.718 9.718 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z" />
-                  </svg>
-                  <div className="text-left">
-                    <p className="text-xs font-medium text-green-100 leading-none mb-0.5">
-                      Chat on WhatsApp
-                    </p>
-                    <p className="text-sm font-bold leading-none">
-                      +94 71 170 0753
-                    </p>
+                  <div>
+                    <div className="text-[10px] text-slate-400 uppercase font-mono">Official Website</div>
+                    <div className="font-bold text-amber-400">paradisecrew.site</div>
                   </div>
-                </a>
+                </div>
+
+                <div className="flex items-center gap-3 text-slate-300">
+                  <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] text-slate-400 uppercase font-mono">Email Us</div>
+                    <div className="font-bold text-white">info@paradisecrew.site</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 text-slate-300">
+                  <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                    <PhoneCall className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] text-slate-400 uppercase font-mono">Call / WhatsApp</div>
+                    <div className="font-bold text-white">+94 77 123 4567</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 text-slate-300">
+                  <div className="w-9 h-9 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] text-slate-400 uppercase font-mono">HQ Studio Location</div>
+                    <div className="font-bold text-white">Southern Province & Colombo, Sri Lanka</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-            {status === "success" ? (
-              <div className="flex flex-col items-center justify-center h-full text-center py-12 gap-4">
-                <CheckCircle2 size={56} className="text-green-500" />
-                <h3 className="text-xl font-bold text-slate-900">
-                  Message Sent!
-                </h3>
-                <p className="text-slate-500 max-w-xs">
-                  Thanks for reaching out. We'll get back to you at{" "}
-                  <span className="font-medium text-slate-700">
-                    {submittedEmail || "your email"}
-                  </span>{" "}
-                  within 24 hours.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setStatus("idle")}
-                  className="mt-2 text-sm text-ocean-700 hover:text-ocean-900 font-medium underline underline-offset-2"
-                >
-                  Send another message
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-slate-700 mb-2"
-                  >
-                    Name
-                  </label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    value={form.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all outline-none"
-                    placeholder="Your name"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-slate-700 mb-2"
-                  >
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    value={form.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all outline-none"
-                    placeholder="your@email.com"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="businessType"
-                    className="block text-sm font-medium text-slate-700 mb-2"
-                  >
-                    Business Type
-                  </label>
-                  <select
-                    id="businessType"
-                    name="businessType"
-                    required
-                    value={form.businessType}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all outline-none bg-white"
-                  >
-                    <option value="" disabled>
-                      Select one...
-                    </option>
-                    <option>Villa Owner</option>
-                    <option>Boutique Hotel</option>
-                    <option>Software Request</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-slate-700 mb-2"
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    required
-                    value={form.message}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all outline-none resize-none"
-                    placeholder="How can we help?"
-                  />
-                </div>
-
-                {status === "error" && (
-                  <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg px-4 py-3">
-                    <AlertCircle size={16} className="shrink-0" />
-                    {errorMessage}
+          {/* Right Column: Interactive Consultation Form */}
+          <div className="lg:col-span-7">
+            <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-8 shadow-2xl relative">
+              {submitted ? (
+                <div className="py-12 text-center space-y-4">
+                  <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+                    <CheckCircle2 className="w-8 h-8" />
                   </div>
-                )}
+                  <h3 className="text-2xl font-bold text-white">Proposal Request Sent!</h3>
+                  <p className="text-slate-300 text-sm max-w-md mx-auto">
+                    Thank you, <span className="text-amber-400 font-bold">{formData.name}</span>. Your request for <span className="text-emerald-400 font-bold">{businessType}</span> was sent directly to <span className="text-sky-300 font-bold">info@paradisecrew.site</span>. We will review your project details and reply within 2 hours.
+                  </p>
+                  <button
+                    onClick={() => setSubmitted(false)}
+                    className="px-6 py-2.5 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold hover:bg-slate-700"
+                  >
+                    Submit Another Inquiry
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <h3 className="text-2xl font-bold text-white">Project Consultation Form</h3>
 
-                <button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="w-full py-4 bg-ocean-800 text-white rounded-lg hover:bg-ocean-700 active:bg-ocean-900 transition-colors font-bold shadow-md hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                >
-                  {status === "sending" ? (
-                    <>
-                      <Loader2 size={18} className="animate-spin" />
-                      Sending…
-                    </>
-                  ) : (
-                    <>
-                      <Send size={18} />
-                      Send Inquiry
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                        Your Business Category
+                      </label>
+                      <select
+                        value={businessType}
+                        onChange={(e) => setBusinessType(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:border-ocean-500 focus:outline-none"
+                      >
+                        <option>Restaurant / Cafe / Beach Bar</option>
+                        <option>Hotel / Boutique Stay</option>
+                        <option>Scooter / Car Rental Shop</option>
+                        <option>Surf School & Activity Center</option>
+                        <option>Tour Agency & Safari Guide</option>
+                        <option>Private Driver & Taxi Transfer</option>
+                        <option>Shop / Souvenir Retail</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                        Desired Project Scope
+                      </label>
+                      <select
+                        value={projectType}
+                        onChange={(e) => setProjectType(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:border-ocean-500 focus:outline-none"
+                      >
+                        <option>Web + Mobile Apps Suite</option>
+                        <option>QR Menu Ordering & Web App</option>
+                        <option>Direct Booking Web Platform</option>
+                        <option>iOS & Android Native Mobile Apps</option>
+                        <option>WhatsApp Automation & Custom SaaS</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                        Your Full Name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Kasun Perera"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:border-ocean-500 focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="kasun@yourdomain.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:border-ocean-500 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                      Phone Number / WhatsApp Number
+                    </label>
+                    <input
+                      type="tel"
+                      placeholder="+94 77 000 0000"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:border-ocean-500 focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                      Project Goals & Key Features
+                    </label>
+                    <textarea
+                      rows={4}
+                      placeholder="Tell us about your business, specific requirements (e.g. QR digital menu, Stripe checkout, WhatsApp bot, GPS rental map), and target launch date..."
+                      value={formData.notes}
+                      onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:border-ocean-500 focus:outline-none"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full py-4 bg-gradient-to-r from-ocean-500 to-ocean-600 hover:from-ocean-400 hover:to-ocean-500 text-white font-bold rounded-2xl shadow-xl shadow-ocean-600/30 flex items-center justify-center gap-2 text-sm transition-all transform hover:-translate-y-0.5 disabled:opacity-50"
+                  >
+                    {loading ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <>
+                        <span>Submit Proposal Request to info@paradisecrew.site</span>
+                        <Send className="w-4 h-4" />
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       </div>

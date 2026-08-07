@@ -1,41 +1,37 @@
+import React from "react";
+
 const integrations = [
-  {
-    src: "/booking.png",
-    alt: "Booking.com",
-    label: "Booking.com",
-    height: "h-6 md:h-8",
-  },
-  { src: "/airbnb.png", alt: "Airbnb", label: "Airbnb", height: "h-8 md:h-10" },
-  { src: "/stripe.png", alt: "Stripe", label: "Stripe", height: "h-8 md:h-10" },
-  {
-    src: "/expedia.png",
-    alt: "Expedia",
-    label: "Expedia",
-    height: "h-6 md:h-8",
-  },
-  { src: "/agoda.png", alt: "Agoda", label: "Agoda", height: "h-6 md:h-8" },
-  {
-    src: "/tripadvisor.png",
-    alt: "TripAdvisor",
-    label: "TripAdvisor",
-    height: "h-8 md:h-10",
-  },
+  { name: "Stripe", category: "Global Payments" },
+  { name: "PayHere", category: "Sri Lanka Gateway" },
+  { name: "PayPal", category: "Multi-Currency" },
+  { name: "Cloudbeds", category: "PMS Integration" },
+  { name: "Smoobu", category: "Channel Manager" },
+  { name: "WhatsApp Business API", category: "Automated Bot" },
+  { name: "React Native & Flutter", category: "Mobile Apps" },
+  { name: "Node.js & AWS", category: "Cloud Backend" },
 ];
 
-const IntegrationsBanner = () => {
+const IntegrationsBanner: React.FC = () => {
   return (
-    <section className="py-8 bg-white border-b border-slate-100">
+    <section className="py-12 bg-slate-950 border-y border-slate-800/80 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p className="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">
-          Seamlessly integrating with your favorite platforms
-        </p>
-        <div className="flex flex-wrap justify-center items-end gap-10 md:gap-16 transition-all duration-500">
-          {integrations.map(({ src, alt, label, height }) => (
-            <div key={alt} className="flex flex-col items-center gap-3">
-              <img src={src} alt={alt} className={`${height} object-contain`} />
-              <span className="text-sm font-semibold text-slate-800">
-                {label}
-              </span>
+        <div className="text-center mb-6">
+          <p className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400">
+            Powered by Enterprise-Grade Technology & Integration Partners
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
+          {integrations.map((item) => (
+            <div
+              key={item.name}
+              className="px-4 py-2.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-2.5 hover:border-ocean-500/40 transition-colors"
+            >
+              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <div>
+                <div className="text-xs font-bold text-slate-200">{item.name}</div>
+                <div className="text-[10px] text-slate-400 font-mono">{item.category}</div>
+              </div>
             </div>
           ))}
         </div>
