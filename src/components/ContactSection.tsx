@@ -81,7 +81,7 @@ const ContactSection: React.FC = () => {
 - Target Project: ${projectType}
 - Email/Phone: ${formData.email || ""} ${formData.phone || ""}
 - Details: ${formData.notes || "Interested in custom software development."}`;
-    return `https://wa.me/94770000000?text=${encodeURIComponent(msg)}`;
+    return `https://wa.me/94721410369?text=${encodeURIComponent(msg)}`;
   };
 
   return (
@@ -149,7 +149,7 @@ const ContactSection: React.FC = () => {
                   </div>
                   <div>
                     <div className="text-[10px] text-slate-400 uppercase font-mono">Call / WhatsApp</div>
-                    <div className="font-bold text-white">+94 77 123 4567</div>
+                    <div className="font-bold text-white">+94 72 141 0369</div>
                   </div>
                 </div>
 
@@ -263,7 +263,7 @@ const ContactSection: React.FC = () => {
                     </label>
                     <input
                       type="tel"
-                      placeholder="+94 77 000 0000"
+                      placeholder="+94 72 141 0369"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:border-ocean-500 focus:outline-none"

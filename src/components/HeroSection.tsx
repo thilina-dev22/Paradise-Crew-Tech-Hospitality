@@ -93,49 +93,47 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right Column: 3D Canvas & Floating Mockup — HIDDEN on mobile, shown lg+ */}
-          <div className="hidden lg:flex lg:col-span-5 relative items-center justify-center">
-            <div className="relative w-full max-w-[500px]">
-              {/* 3D WebGL Globe Canvas background */}
-              <div className="absolute inset-0 z-0 opacity-80">
-                <Hero3DCanvas />
+          {/* Right Column: 3D Canvas + Info Card below — HIDDEN on mobile, shown lg+ */}
+          <div className="hidden lg:flex lg:col-span-5 flex-col items-center gap-4">
+            {/* 3D WebGL Globe — full width, standalone */}
+            <div className="w-full">
+              <Hero3DCanvas />
+            </div>
+
+            {/* Info Card below the globe */}
+            <div className="w-full p-5 rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-slate-800 shadow-2xl space-y-4 hover:border-ocean-500/40 transition-all">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-ocean-500/20 border border-ocean-500/30 flex items-center justify-center text-ocean-400">
+                    <Smartphone className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-100">Web &amp; Mobile Apps Suite</h4>
+                    <p className="text-xs text-slate-400">Hotels, Restaurants &amp; Tourism</p>
+                  </div>
+                </div>
+                <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold tracking-wider shrink-0">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                  LIVE DEMO
+                </span>
               </div>
 
-              {/* Floating Preview Card Over 3D Scene */}
-              <div className="relative z-10 p-6 rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-slate-800 shadow-2xl space-y-4 hover:border-ocean-500/40 transition-all">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-ocean-500/20 border border-ocean-500/30 flex items-center justify-center text-ocean-400">
-                      <Smartphone className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-slate-100">Web & Mobile Apps Suite</h4>
-                      <p className="text-xs text-slate-400">Hotels, Restaurants & Tourism</p>
-                    </div>
-                  </div>
-                  <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold tracking-wider">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                    LIVE DEMO
-                  </span>
-                </div>
+              <div className="rounded-xl overflow-hidden border border-slate-800 shadow-inner group">
+                <img
+                  src="/images/restaurant_cafe_app.png"
+                  alt="Restaurant & Cafe Digital Ordering App"
+                  className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+              </div>
 
-                <div className="rounded-xl overflow-hidden border border-slate-800 shadow-inner group">
-                  <img
-                    src="/images/restaurant_cafe_app.png"
-                    alt="Restaurant & Cafe Digital Ordering App"
-                    className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800/80">
+                  <div className="text-slate-400 font-medium">QR Menu &amp; Direct Booking</div>
+                  <div className="text-base font-bold text-amber-400">+140% Revenue</div>
                 </div>
-
-                <div className="grid grid-cols-2 gap-3 text-xs">
-                  <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800/80">
-                    <div className="text-slate-400 font-medium">QR Menu & Direct Booking</div>
-                    <div className="text-lg font-bold text-amber-400">+140% Revenue</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800/80">
-                    <div className="text-slate-400 font-medium">Automated Kitchen/WhatsApp</div>
-                    <div className="text-lg font-bold text-emerald-400">Instant Confirm</div>
-                  </div>
+                <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800/80">
+                  <div className="text-slate-400 font-medium">Automated Kitchen/WhatsApp</div>
+                  <div className="text-base font-bold text-emerald-400">Instant Confirm</div>
                 </div>
               </div>
             </div>

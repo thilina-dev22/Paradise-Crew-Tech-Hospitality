@@ -1,6 +1,16 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 
+// Sri Lanka geographic coordinates
+const SL_LAT = 7.87 * (Math.PI / 180);  // ~7.87° N
+const SL_LON = 80.77 * (Math.PI / 180); // ~80.77° E
+const GLOBE_RADIUS = 62;
+
+// Convert lat/lon to 3D cartesian (sphere surface)
+const slX = GLOBE_RADIUS * Math.cos(SL_LAT) * Math.sin(SL_LON);
+const slY = GLOBE_RADIUS * Math.sin(SL_LAT);
+const slZ = GLOBE_RADIUS * Math.cos(SL_LAT) * Math.cos(SL_LON);
+
 const Hero3DCanvas: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
 
@@ -27,8 +37,9 @@ const Hero3DCanvas: React.FC = () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    // Group for objects
+    // Group for objects — start rotated so Sri Lanka faces the camera
     const mainGroup = new THREE.Group();
+    mainGroup.rotation.y = -SL_LON; // Bring Sri Lanka to face +Z (camera)
     scene.add(mainGroup);
 
     // 1. Central Wireframe Globe
@@ -117,6 +128,75 @@ const Hero3DCanvas: React.FC = () => {
     const particles = new THREE.Points(particleGeometry, particleMaterial);
     scene.add(particles);
 
+    // ─── 7. Sri Lanka Highlight ───────────────────────────────────────────
+    const sriLankaGroup = new THREE.Group();
+    mainGroup.add(sriLankaGroup);
+
+    // a) Core dot — bright amber/gold
+    const slDotGeom = new THREE.SphereGeometry(3.5, 16, 16);
+    const slDotMat = new THREE.MeshBasicMaterial({ color: 0xfbbf24 });
+    const slDot = new THREE.Mesh(slDotGeom, slDotMat);
+    slDot.position.set(slX, slY, slZ);
+    sriLankaGroup.add(slDot);
+
+    // b) Outer glow sphere — semi-transparent amber halo
+    const slGlowGeom = new THREE.SphereGeometry(7, 16, 16);
+    const slGlowMat = new THREE.MeshBasicMaterial({
+      color: 0xfbbf24,
+      transparent: true,
+      opacity: 0.25,
+    });
+    const slGlow = new THREE.Mesh(slGlowGeom, slGlowMat);
+    slGlow.position.set(slX, slY, slZ);
+    sriLankaGroup.add(slGlow);
+
+    // c) Pulsing ring flat on sphere surface
+    const slRingGeom = new THREE.TorusGeometry(8, 0.6, 8, 48);
+    const slRingMat = new THREE.MeshBasicMaterial({
+      color: 0xfbbf24,
+      transparent: true,
+      opacity: 0.85,
+    });
+    const slRing = new THREE.Mesh(slRingGeom, slRingMat);
+    slRing.position.set(slX, slY, slZ);
+    // Orient ring perpendicular to the sphere surface (normal points outward)
+    slRing.lookAt(slX * 2, slY * 2, slZ * 2);
+    sriLankaGroup.add(slRing);
+
+    // d) Second expanding ring for pulse effect (larger, more transparent)
+    const slRing2Geom = new THREE.TorusGeometry(12, 0.4, 8, 48);
+    const slRing2Mat = new THREE.MeshBasicMaterial({
+      color: 0xfcd34d,
+      transparent: true,
+      opacity: 0.4,
+    });
+    const slRing2 = new THREE.Mesh(slRing2Geom, slRing2Mat);
+    slRing2.position.set(slX, slY, slZ);
+    slRing2.lookAt(slX * 2, slY * 2, slZ * 2);
+    sriLankaGroup.add(slRing2);
+
+    // e) Pin spike — line from sphere surface outward
+    const outDir = new THREE.Vector3(slX, slY, slZ).normalize();
+    const spikeStart = new THREE.Vector3(slX, slY, slZ);
+    const spikeEnd = outDir.clone().multiplyScalar(GLOBE_RADIUS + 18);
+    const spikePts = [spikeStart, spikeEnd];
+    const spikeGeom = new THREE.BufferGeometry().setFromPoints(spikePts);
+    const spikeMat = new THREE.LineBasicMaterial({
+      color: 0xfbbf24,
+      transparent: true,
+      opacity: 0.9,
+    });
+    const spike = new THREE.Line(spikeGeom, spikeMat);
+    sriLankaGroup.add(spike);
+
+    // f) Pin tip dot at the top of the spike
+    const tipGeom = new THREE.SphereGeometry(2.5, 12, 12);
+    const tipMat = new THREE.MeshBasicMaterial({ color: 0xfde68a });
+    const tip = new THREE.Mesh(tipGeom, tipMat);
+    tip.position.copy(spikeEnd);
+    sriLankaGroup.add(tip);
+    // ─────────────────────────────────────────────────────────────────────
+
     // Mouse / Touch Interaction
     let mouseX = 0;
     let mouseY = 0;
@@ -152,7 +232,6 @@ const Hero3DCanvas: React.FC = () => {
     let animationFrameId: number;
 
     if (prefersReducedMotion) {
-      // Just render once, no animation
       renderer.render(scene, camera);
     } else {
       const animate = () => {
@@ -171,12 +250,25 @@ const Hero3DCanvas: React.FC = () => {
 
         particles.rotation.y += 0.0008;
 
+        // Pulse Sri Lanka rings
+        const t = Date.now() * 0.002;
+        const pulse = 1 + 0.25 * Math.sin(t * 2.5);
+        slRing.scale.set(pulse, pulse, pulse);
+        slRingMat.opacity = 0.6 + 0.35 * Math.abs(Math.sin(t * 2.5));
+
+        const pulse2 = 1 + 0.4 * Math.sin(t * 2.5 + Math.PI);
+        slRing2.scale.set(pulse2, pulse2, pulse2);
+        slRing2Mat.opacity = 0.15 + 0.3 * Math.abs(Math.sin(t * 2.5 + Math.PI));
+
+        // Pulse the glow halo
+        slGlowMat.opacity = 0.1 + 0.2 * Math.abs(Math.sin(t * 2));
+
         renderer.render(scene, camera);
       };
       animate();
     }
 
-    // Use ResizeObserver for accurate resize detection (handles mobile more reliably)
+    // Use ResizeObserver for accurate resize detection
     const resizeObserver = new ResizeObserver(() => {
       if (!container) return;
       const newW = container.clientWidth || 400;
@@ -206,7 +298,7 @@ const Hero3DCanvas: React.FC = () => {
   return (
     <div
       ref={mountRef}
-      className="w-full h-[380px] sm:h-[450px] lg:h-[550px] relative cursor-grab active:cursor-grabbing"
+      className="w-full h-[260px] lg:h-[300px] relative cursor-grab active:cursor-grabbing"
     />
   );
 };

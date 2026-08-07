@@ -95,7 +95,7 @@ const EstimatorSection: React.FC = () => {
 - Features: ${featureNames || "Basic"}
 - Estimated Budget: ~$${calculatedUSD} (LKR ${calculatedLKR.toLocaleString()})
 I'd like to get started on a formal quote!`;
-    return `https://wa.me/94770000000?text=${encodeURIComponent(text)}`;
+    return `https://wa.me/94721410369?text=${encodeURIComponent(text)}`;
   };
 
   return (
