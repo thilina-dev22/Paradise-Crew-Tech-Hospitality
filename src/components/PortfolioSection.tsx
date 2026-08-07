@@ -195,7 +195,7 @@ const PortfolioSection: React.FC = () => {
       : portfolioData.filter((item) => item.category === activeFilter);
 
   return (
-    <section id="portfolio" className="py-24 bg-slate-950 text-white relative">
+    <section id="portfolio" className="py-16 sm:py-24 bg-slate-950 text-white relative scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
@@ -215,7 +215,7 @@ const PortfolioSection: React.FC = () => {
         </div>
 
         {/* Filter Buttons */}
-        <div className="flex items-center justify-start lg:justify-center overflow-x-auto pb-4 mb-12 gap-3 no-scrollbar">
+        <div className="flex items-center justify-start lg:justify-center overflow-x-auto pb-4 mb-10 gap-2 sm:gap-3 no-scrollbar snap-x snap-mandatory">
           {[
             { id: "all", label: "All Portfolios" },
             { id: "hotel", label: "Hotels & Villas" },
@@ -227,7 +227,7 @@ const PortfolioSection: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveFilter(tab.id)}
-              className={`px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold whitespace-nowrap transition-all ${
+              className={`px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap shrink-0 snap-start transition-all ${
                 activeFilter === tab.id
                   ? "bg-gradient-to-r from-ocean-500 to-ocean-600 text-white shadow-lg shadow-ocean-600/30 scale-105"
                   : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-white"
@@ -310,8 +310,15 @@ const PortfolioSection: React.FC = () => {
 
         {/* Modal Drawer for Selected Portfolio Item */}
         {selectedItem && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 space-y-6 relative shadow-2xl">
+          <div
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-950/80 backdrop-blur-md"
+            onClick={() => setSelectedItem(null)}
+          >
+            <div
+              className="bg-slate-900 border border-slate-800 rounded-t-3xl sm:rounded-3xl max-w-3xl w-full max-h-[92vh] sm:max-h-[90vh] overflow-y-auto overscroll-contain p-5 sm:p-6 md:p-8 space-y-6 relative shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+              style={{ WebkitOverflowScrolling: "touch" } as React.CSSProperties}
+            >
               <button
                 onClick={() => setSelectedItem(null)}
                 className="absolute top-4 right-4 p-2 rounded-full bg-slate-800 text-slate-400 hover:text-white"

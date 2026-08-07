@@ -99,7 +99,7 @@ I'd like to get started on a formal quote!`;
   };
 
   return (
-    <section id="estimator" className="py-24 bg-slate-950 text-white relative">
+    <section id="estimator" className="py-16 sm:py-24 bg-slate-950 text-white relative scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-wider">
@@ -117,9 +117,9 @@ I'd like to get started on a formal quote!`;
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-8 items-start">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           {/* Step Configurator */}
-          <div className="lg:col-span-8 space-y-8 bg-slate-900/80 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-xl">
+          <div className="lg:col-span-8 order-last lg:order-first space-y-6 sm:space-y-8 bg-slate-900/80 border border-slate-800 rounded-3xl p-5 sm:p-6 md:p-8 shadow-xl">
             {/* Step 1: Business Category */}
             <div>
               <label className="flex items-center gap-2 text-sm font-bold text-slate-200 uppercase tracking-wider mb-4">
@@ -213,8 +213,8 @@ I'd like to get started on a formal quote!`;
             </div>
           </div>
 
-          {/* Price Summary Sticky Box */}
-          <div className="lg:col-span-4 sticky top-28 space-y-6">
+          {/* Price Summary Box — appears first on mobile, sticky only on lg+ */}
+          <div className="lg:col-span-4 order-first lg:order-last lg:sticky lg:top-28 space-y-6">
             <div className="bg-gradient-to-br from-slate-900 to-slate-950 border border-ocean-500/40 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
 

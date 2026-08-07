@@ -7,11 +7,11 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-slate-950 text-slate-400 border-t border-slate-800/80 pt-16 pb-12 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="grid md:grid-cols-12 gap-8">
+    <footer className="bg-slate-950 text-slate-400 border-t border-slate-800/80 pt-12 pb-8 sm:pt-16 sm:pb-12 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8">
           {/* Brand Col */}
-          <div className="md:col-span-5 space-y-4">
+          <div className="sm:col-span-2 lg:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl overflow-hidden border border-amber-500/40 shadow-lg bg-slate-900 flex items-center justify-center">
                 <img
@@ -35,7 +35,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Quick Links */}
-          <div className="md:col-span-3 space-y-3">
+          <div className="lg:col-span-3 space-y-3">
             <h4 className="text-xs font-mono font-bold text-white uppercase tracking-wider">Solutions & Verticals</h4>
             <ul className="space-y-2 text-xs">
               <li><a href="#solutions" className="hover:text-ocean-400">Restaurants & Cafes QR Ordering</a></li>
@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Tools & Contact */}
-          <div className="md:col-span-4 space-y-3">
+          <div className="lg:col-span-4 space-y-3">
             <h4 className="text-xs font-mono font-bold text-white uppercase tracking-wider">Interactive Tools & Contact</h4>
             <ul className="space-y-2 text-xs">
               <li><a href="#estimator" className="text-amber-400 font-bold hover:underline">Interactive App Cost Calculator</a></li>
@@ -61,7 +61,7 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex items-center gap-2 text-slate-300">
                 <Mail className="w-3.5 h-3.5 text-amber-400" />
-                <span>hello@paradisecrew.site</span>
+                <span>info@paradisecrew.site</span>
               </li>
               <li className="flex items-center gap-2 text-slate-300">
                 <Phone className="w-3.5 h-3.5 text-emerald-400" />

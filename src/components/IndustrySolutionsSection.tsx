@@ -198,7 +198,7 @@ const IndustrySolutionsSection: React.FC = () => {
     solutions.find((s) => s.id === activeTab) || solutions[0];
 
   return (
-    <section id="solutions" className="py-24 bg-slate-900 text-white relative">
+    <section id="solutions" className="py-16 sm:py-24 bg-slate-900 text-white relative scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
@@ -218,7 +218,7 @@ const IndustrySolutionsSection: React.FC = () => {
         </div>
 
         {/* Vertical Tabs */}
-        <div className="flex items-center justify-start lg:justify-center overflow-x-auto pb-4 mb-12 gap-3 no-scrollbar">
+        <div className="flex items-center justify-start lg:justify-center overflow-x-auto pb-4 mb-10 gap-3 no-scrollbar snap-x snap-mandatory">
           {solutions.map((item) => {
             const Icon = item.icon;
             const isActive = item.id === activeTab;
@@ -226,7 +226,7 @@ const IndustrySolutionsSection: React.FC = () => {
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`flex items-center gap-2.5 px-5 py-3 rounded-xl font-medium text-sm whitespace-nowrap transition-all duration-300 ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-xs sm:text-sm whitespace-nowrap transition-all duration-300 shrink-0 snap-start ${
                   isActive
                     ? "bg-gradient-to-r from-ocean-600 to-ocean-500 text-white shadow-lg shadow-ocean-600/30 scale-105"
                     : "bg-slate-950/80 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"
@@ -240,7 +240,7 @@ const IndustrySolutionsSection: React.FC = () => {
         </div>
 
         {/* Selected Industry Card Showcase */}
-        <div className="grid lg:grid-cols-12 gap-8 items-center bg-slate-950/90 border border-slate-800 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-center bg-slate-950/90 border border-slate-800 rounded-3xl p-5 sm:p-6 md:p-10 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-ocean-500/10 rounded-full blur-3xl pointer-events-none" />
 
           {/* Left Side: Content & Features */}
@@ -313,21 +313,21 @@ const IndustrySolutionsSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Side: Visual Mockup Showcase */}
-          <div className="lg:col-span-5 relative flex items-center justify-center">
+          {/* Right Side: Visual Mockup Showcase — shows above text on mobile */}
+          <div className="lg:col-span-5 relative flex items-center justify-center order-first lg:order-last">
             <div className="relative w-full rounded-2xl overflow-hidden border border-slate-800 shadow-2xl group">
               <img
                 src={currentSolution.image}
                 alt={currentSolution.title}
-                className="w-full h-80 md:h-96 object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-52 sm:h-64 md:h-80 lg:h-96 object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80" />
-              <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-slate-900/90 backdrop-blur border border-slate-800 flex justify-between items-center">
-                <div>
-                  <div className="text-xs text-slate-400">Target Platform</div>
-                  <div className="text-sm font-bold text-white">{currentSolution.name} Software Suite</div>
+              <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-slate-900/90 backdrop-blur border border-slate-800 flex justify-between items-center gap-2">
+                <div className="min-w-0">
+                  <div className="text-[10px] text-slate-400">Target Platform</div>
+                  <div className="text-xs sm:text-sm font-bold text-white truncate">{currentSolution.name} Software Suite</div>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-ocean-500 text-white font-bold text-xs">
+                <span className="px-2 sm:px-3 py-1 rounded-full bg-ocean-500 text-white font-bold text-[10px] sm:text-xs shrink-0">
                   Production Ready
                 </span>
               </div>

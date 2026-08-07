@@ -1,17 +1,37 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Calculator, Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    };
+    if (mobileMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [mobileMenuOpen]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileMenuOpen]);
 
   const navLinks = [
     { name: "Solutions", href: "#solutions" },
@@ -24,6 +44,7 @@ const Navbar = () => {
 
   return (
     <nav
+      ref={menuRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-slate-950/90 backdrop-blur-md border-b border-slate-800 py-3 shadow-2xl"
@@ -45,7 +66,7 @@ const Navbar = () => {
               PARADISE <span className="text-amber-400">CREW</span>
             </div>
             <div className="text-[10px] text-ocean-400 font-mono font-bold tracking-widest uppercase mt-1">
-              Tech & Hospitality
+              Tech &amp; Hospitality
             </div>
           </div>
         </a>
@@ -63,7 +84,7 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Action Button */}
+        {/* Desktop Action Button */}
         <div className="hidden md:flex items-center gap-4">
           <a
             href="#estimator"
@@ -77,35 +98,43 @@ const Navbar = () => {
         {/* Mobile Hamburger Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 text-slate-300 hover:text-white"
+          className="md:hidden p-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors"
+          aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={mobileMenuOpen}
         >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
-      {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-slate-950 border-b border-slate-800 px-4 pt-3 pb-6 space-y-3">
+      {/* Mobile Menu Dropdown — animated slide-down */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          mobileMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="bg-slate-950/98 backdrop-blur-md border-b border-slate-800 px-4 pt-2 pb-6 space-y-1">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm font-semibold text-slate-200 hover:text-ocean-400 py-1.5"
+              className="flex items-center text-sm font-semibold text-slate-200 hover:text-ocean-400 hover:bg-slate-800/50 py-3 px-3 rounded-xl transition-colors"
             >
               {link.name}
             </a>
           ))}
-          <a
-            href="#estimator"
-            onClick={() => setMobileMenuOpen(false)}
-            className="w-full py-3 bg-ocean-600 text-white font-bold rounded-xl text-center flex items-center justify-center gap-2 text-xs"
-          >
-            <Calculator className="w-4 h-4 text-amber-300" />
-            <span>Calculate Project Cost</span>
-          </a>
+          <div className="pt-2">
+            <a
+              href="#estimator"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full py-3.5 bg-gradient-to-r from-ocean-500 to-ocean-600 text-white font-bold rounded-xl text-center flex items-center justify-center gap-2 text-sm shadow-lg shadow-ocean-900/50"
+            >
+              <Calculator className="w-4 h-4 text-amber-300" />
+              <span>Calculate Project Cost</span>
+            </a>
+          </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 };

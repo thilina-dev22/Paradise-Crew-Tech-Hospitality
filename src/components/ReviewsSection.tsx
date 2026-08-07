@@ -57,7 +57,7 @@ const reviews: Review[] = [
 
 const ReviewsSection: React.FC = () => {
   return (
-    <section className="py-24 bg-slate-950 text-white relative">
+    <section className="py-16 sm:py-24 bg-slate-950 text-white relative scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-wider">
@@ -83,13 +83,13 @@ const ReviewsSection: React.FC = () => {
                 className="bg-slate-900/80 border border-slate-800 rounded-3xl p-8 space-y-6 relative hover:border-ocean-500/40 transition-all flex flex-col justify-between"
               >
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-amber-400">
+                  <div className="flex items-center justify-between gap-2 flex-wrap">
+                    <div className="flex items-center gap-1.5 text-amber-400">
                       {[...Array(rev.rating)].map((_, i) => (
                         <Star key={i} className="w-4 h-4 fill-amber-400" />
                       ))}
                     </div>
-                    <span className="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold">
+                    <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-[10px] sm:text-xs font-bold shrink-0 max-w-full">
                       {rev.stats}
                     </span>
                   </div>

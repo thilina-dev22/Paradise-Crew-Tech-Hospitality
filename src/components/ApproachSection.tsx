@@ -34,7 +34,7 @@ const steps = [
 
 const ApproachSection: React.FC = () => {
   return (
-    <section className="py-24 bg-slate-900 text-white relative">
+    <section className="py-16 sm:py-24 bg-slate-900 text-white relative scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ocean-500/10 border border-ocean-500/30 text-ocean-400 text-xs font-bold uppercase tracking-wider">

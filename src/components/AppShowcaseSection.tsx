@@ -116,7 +116,7 @@ const AppShowcaseSection: React.FC = () => {
   const currentApp = appItems.find((a) => a.id === selectedApp) || appItems[0];
 
   return (
-    <section id="showcase" className="py-24 bg-slate-900 text-white relative overflow-hidden">
+    <section id="showcase" className="py-16 sm:py-24 bg-slate-900 text-white relative overflow-hidden scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ocean-500/10 border border-ocean-500/30 text-ocean-400 text-xs font-bold uppercase tracking-wider">
@@ -135,14 +135,14 @@ const AppShowcaseSection: React.FC = () => {
         </div>
 
         {/* App Selector Tabs */}
-        <div className="flex items-center justify-center gap-3 overflow-x-auto pb-4 mb-12 no-scrollbar">
+        <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-3 overflow-x-auto pb-4 mb-10 no-scrollbar snap-x snap-mandatory">
           {appItems.map((app) => {
             const isActive = app.id === selectedApp;
             return (
               <button
                 key={app.id}
                 onClick={() => setSelectedApp(app.id)}
-                className={`px-5 py-3 rounded-2xl text-xs md:text-sm font-bold transition-all duration-300 ${
+                className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all duration-300 whitespace-nowrap shrink-0 snap-start ${
                   isActive
                     ? "bg-slate-950 text-amber-400 border border-amber-500/40 shadow-xl shadow-amber-500/10 scale-105"
                     : "bg-slate-950/40 text-slate-400 border border-slate-800 hover:text-white"
@@ -155,14 +155,14 @@ const AppShowcaseSection: React.FC = () => {
         </div>
 
         {/* Showcase Stage */}
-        <div className="grid lg:grid-cols-12 gap-8 items-center bg-slate-950/80 border border-slate-800 rounded-3xl p-6 md:p-10 shadow-2xl">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-center bg-slate-950/80 border border-slate-800 rounded-3xl p-5 sm:p-6 md:p-10 shadow-2xl">
           {/* Screenshot Display */}
           <div className="lg:col-span-6 relative">
             <div className="relative rounded-2xl overflow-hidden border border-slate-800 shadow-2xl group">
               <img
                 src={currentApp.image}
                 alt={currentApp.name}
-                className="w-full h-80 md:h-[420px] object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-52 sm:h-64 md:h-[420px] object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent opacity-60" />
               <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-slate-900/90 backdrop-blur border border-slate-800 text-xs font-mono text-ocean-400 font-bold">

@@ -85,7 +85,7 @@ const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-24 bg-slate-950 text-white relative">
+    <section id="contact" className="py-16 sm:py-24 bg-slate-950 text-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider">
@@ -103,10 +103,10 @@ const ContactSection: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-8 items-start">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           {/* Left Column: Direct Info & WhatsApp */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-8 space-y-6">
+            <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
               <h3 className="text-2xl font-bold text-white">Direct Communication</h3>
               <p className="text-slate-300 text-sm leading-relaxed">
                 Prefer immediate messaging? Talk directly with our lead solution architect on WhatsApp for fast responses and quote estimates.
@@ -168,7 +168,7 @@ const ContactSection: React.FC = () => {
 
           {/* Right Column: Interactive Consultation Form */}
           <div className="lg:col-span-7">
-            <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-8 shadow-2xl relative">
+            <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 sm:p-8 shadow-2xl relative">
               {submitted ? (
                 <div className="py-12 text-center space-y-4">
                   <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
