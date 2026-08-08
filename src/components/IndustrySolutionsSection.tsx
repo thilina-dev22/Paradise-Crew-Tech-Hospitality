@@ -217,26 +217,34 @@ const IndustrySolutionsSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Vertical Tabs */}
-        <div className="flex items-center justify-start lg:justify-center overflow-x-auto pb-4 mb-10 gap-3 no-scrollbar snap-x snap-mandatory">
-          {solutions.map((item) => {
-            const Icon = item.icon;
-            const isActive = item.id === activeTab;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-xs sm:text-sm whitespace-nowrap transition-all duration-300 shrink-0 snap-start ${
-                  isActive
-                    ? "bg-gradient-to-r from-ocean-600 to-ocean-500 text-white shadow-lg shadow-ocean-600/30 scale-105"
-                    : "bg-slate-950/80 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"
-                }`}
-              >
-                <Icon className={`w-4 h-4 ${isActive ? "text-amber-300" : "text-slate-400"}`} />
-                <span>{item.name}</span>
-              </button>
-            );
-          })}
+        {/* Vertical Tabs — swipeable horizontal scroll container */}
+        <div className="relative mb-10">
+          <div className="flex items-center gap-2.5 overflow-x-auto pb-3 pt-1 px-1 no-scrollbar snap-x snap-mandatory scroll-smooth">
+            {solutions.map((item) => {
+              const Icon = item.icon;
+              const isActive = item.id === activeTab;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm whitespace-nowrap transition-all duration-300 shrink-0 snap-start ${
+                    isActive
+                      ? "bg-gradient-to-r from-ocean-600 to-ocean-500 text-white shadow-lg shadow-ocean-600/30 scale-105"
+                      : "bg-slate-950/80 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"
+                  }`}
+                >
+                  <Icon className={`w-4 h-4 ${isActive ? "text-amber-300" : "text-slate-400"}`} />
+                  <span>{item.name}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Swipe indicator hint for mobile screens */}
+          <div className="sm:hidden flex items-center justify-end gap-1 text-[10px] text-slate-500 pt-1 font-mono">
+            <span>Swipe for more verticals</span>
+            <ArrowRight className="w-3 h-3 text-ocean-400 animate-pulse" />
+          </div>
         </div>
 
         {/* Selected Industry Card Showcase */}

@@ -134,24 +134,26 @@ const AppShowcaseSection: React.FC = () => {
           </p>
         </div>
 
-        {/* App Selector Tabs */}
-        <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-3 overflow-x-auto pb-4 mb-10 no-scrollbar snap-x snap-mandatory">
-          {appItems.map((app) => {
-            const isActive = app.id === selectedApp;
-            return (
-              <button
-                key={app.id}
-                onClick={() => setSelectedApp(app.id)}
-                className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all duration-300 whitespace-nowrap shrink-0 snap-start ${
-                  isActive
-                    ? "bg-slate-950 text-amber-400 border border-amber-500/40 shadow-xl shadow-amber-500/10 scale-105"
-                    : "bg-slate-950/40 text-slate-400 border border-slate-800 hover:text-white"
-                }`}
-              >
-                {app.category}
-              </button>
-            );
-          })}
+        {/* App Selector Tabs — swipeable horizontal scroll container */}
+        <div className="relative mb-10">
+          <div className="flex items-center gap-2.5 overflow-x-auto pb-3 pt-1 px-1 no-scrollbar snap-x snap-mandatory scroll-smooth">
+            {appItems.map((app) => {
+              const isActive = app.id === selectedApp;
+              return (
+                <button
+                  key={app.id}
+                  onClick={() => setSelectedApp(app.id)}
+                  className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all duration-300 whitespace-nowrap shrink-0 snap-start ${
+                    isActive
+                      ? "bg-slate-950 text-amber-400 border border-amber-500/40 shadow-xl shadow-amber-500/10 scale-105"
+                      : "bg-slate-950/40 text-slate-400 border border-slate-800 hover:text-white"
+                  }`}
+                >
+                  {app.category}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Showcase Stage */}
