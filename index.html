@@ -113,25 +113,24 @@
           "inLanguage": "en-US"
         },
         {
-          "@type": "ProfessionalService",
-          "name": "Paradise Crew Tech &amp; Hospitality",
-          "image": "https://paradisecrew.site/images/og-preview.png",
-          "telephone": "+94721410369",
-          "priceRange": "$$",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Southern Province",
-            "addressLocality": "Southern Province",
-            "addressRegion": "Southern Province",
-            "postalCode": "80000",
-            "addressCountry": "LK"
-          },
+          "@type": "Service",
+          "@id": "https://paradisecrew.site/#service",
+          "name": "Web &amp; Mobile App Development for Hospitality",
           "serviceType": "Web &amp; Mobile App Development",
+          "description": "Custom web and mobile app development for hotels, restaurants, cafes, scooter rentals, tour agencies and transport services in Sri Lanka.",
           "provider": { "@id": "https://paradisecrew.site/#business" },
-          "areaServed": "Sri Lanka",
+          "areaServed": [
+            { "@type": "Country", "name": "Sri Lanka" }
+          ],
           "availableChannel": {
             "@type": "ServiceChannel",
             "serviceUrl": "https://paradisecrew.site/#contact"
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "description": "Free consultation — custom quote provided"
           }
         }
       ]
