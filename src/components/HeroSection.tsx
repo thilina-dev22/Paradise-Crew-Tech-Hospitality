@@ -26,9 +26,9 @@ const HeroSection = () => {
       id="home"
       className="relative pt-24 pb-16 lg:pt-36 lg:pb-28 overflow-hidden bg-slate-950 text-white"
     >
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-ocean-600/20 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-amber-500/10 rounded-full blur-[120px] pointer-events-none" />
+      {/* Background ambient lighting — optimized for mobile GPU rendering */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-ocean-600/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[350px] h-[350px] bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -173,6 +173,8 @@ const HeroSection = () => {
                 src="/images/restaurant_cafe_app.png"
                 alt="Restaurant & Cafe Digital Ordering App"
                 className="w-full h-52 object-cover"
+                loading="eager"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-4 grid grid-cols-2 gap-3 text-xs">

@@ -163,6 +163,8 @@ const AppShowcaseSection: React.FC = () => {
                 src={currentApp.image}
                 alt={currentApp.name}
                 className="w-full h-52 sm:h-64 md:h-[420px] object-cover group-hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent opacity-60" />
               <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-slate-900/90 backdrop-blur border border-slate-800 text-xs font-mono text-ocean-400 font-bold">
