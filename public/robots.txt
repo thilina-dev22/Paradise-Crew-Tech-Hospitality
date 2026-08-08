@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://paradisecrew.site/sitemap.xml
+
+# Block access to source files (not served anyway but good practice)
+Disallow: /src/
+Disallow: /.env
