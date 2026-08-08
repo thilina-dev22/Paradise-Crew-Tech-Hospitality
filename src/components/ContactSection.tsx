@@ -10,7 +10,6 @@ import {
   Globe,
   Loader2,
 } from "lucide-react";
-import confetti from "canvas-confetti";
 
 const ContactSection: React.FC = () => {
   const [businessType, setBusinessType] = useState<string>("Restaurant / Cafe / Beach Bar");
@@ -58,11 +57,16 @@ const ContactSection: React.FC = () => {
 
       if (data.success) {
         setSubmitted(true);
-        confetti({
-          particleCount: 120,
-          spread: 80,
-          origin: { y: 0.6 },
-        });
+        try {
+          const confetti = (await import("canvas-confetti")).default;
+          confetti({
+            particleCount: 120,
+            spread: 80,
+            origin: { y: 0.6 },
+          });
+        } catch {
+          // Ignore confetti errors if canvas fails on mobile
+        }
       } else {
         console.error("Web3Forms error:", data);
         setErrorMessage(data.message || "Failed to send proposal. Please contact us directly via WhatsApp or email.");
@@ -99,213 +103,223 @@ const ContactSection: React.FC = () => {
             </span>
           </h2>
           <p className="text-slate-400 text-base md:text-lg">
-            Schedule a free project consultation or drop us a WhatsApp message to get your project moving today.
+            Get an instant response within 2 hours. Submit your details below or connect directly on WhatsApp with our lead engineers.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-          {/* Left Column: Direct Info & WhatsApp */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
-              <h3 className="text-2xl font-bold text-white">Direct Communication</h3>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                Prefer immediate messaging? Talk directly with our lead solution architect on WhatsApp for fast responses and quote estimates.
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          {/* Left Column: Direct Contact Info */}
+          <div className="lg:col-span-5 space-y-6 bg-slate-900/80 border border-slate-800 p-6 sm:p-8 rounded-3xl backdrop-blur-xl">
+            <div className="space-y-2">
+              <h3 className="text-xl sm:text-2xl font-bold">Direct Channels</h3>
+              <p className="text-xs sm:text-sm text-slate-400">
+                Prefer immediate messaging? Our team is active 7 days a week on WhatsApp and email.
               </p>
+            </div>
 
+            <div className="space-y-4 pt-2">
+              {/* WhatsApp Card */}
               <a
                 href={getWhatsAppDirectLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl shadow-xl shadow-emerald-950/60 flex items-center justify-center gap-3 text-sm transition-all transform hover:-translate-y-0.5"
+                className="group p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 hover:border-emerald-500/60 transition-all flex items-center gap-4 block"
               >
-                <MessageSquare className="w-5 h-5 animate-pulse" />
-                <span>Chat on WhatsApp Now</span>
+                <div className="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <MessageSquare className="w-6 h-6" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs text-emerald-400 font-mono font-bold uppercase">Fastest Response</div>
+                  <div className="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">
+                    Chat on WhatsApp
+                  </div>
+                  <div className="text-xs text-slate-400 truncate">+94 72 141 0369</div>
+                </div>
               </a>
 
-              <div className="space-y-4 pt-4 border-t border-slate-800 text-sm">
-                <div className="flex items-center gap-3 text-slate-300">
-                  <div className="w-9 h-9 rounded-xl bg-ocean-500/10 border border-ocean-500/30 flex items-center justify-center text-ocean-400">
-                    <Globe className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-slate-400 uppercase font-mono">Official Website</div>
-                    <div className="font-bold text-amber-400">paradisecrew.site</div>
-                  </div>
+              {/* Email Card */}
+              <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-ocean-500/20 text-ocean-400 flex items-center justify-center shrink-0">
+                  <Mail className="w-6 h-6" />
                 </div>
-
-                <div className="flex items-center gap-3 text-slate-300">
-                  <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-slate-400 uppercase font-mono">Email Us</div>
-                    <div className="font-bold text-white">info@paradisecrew.site</div>
-                  </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs text-ocean-400 font-mono font-bold uppercase">Email Inquiry</div>
+                  <div className="text-sm font-bold text-white">info@paradisecrew.site</div>
+                  <div className="text-xs text-slate-400">Replies in &lt; 2 Hours</div>
                 </div>
+              </div>
 
-                <div className="flex items-center gap-3 text-slate-300">
-                  <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                    <PhoneCall className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-slate-400 uppercase font-mono">Call / WhatsApp</div>
-                    <div className="font-bold text-white">+94 72 141 0369</div>
-                  </div>
+              {/* Phone Direct */}
+              <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+                  <PhoneCall className="w-6 h-6" />
                 </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs text-amber-400 font-mono font-bold uppercase">Direct Line</div>
+                  <div className="text-sm font-bold text-white">+94 72 141 0369</div>
+                  <div className="text-xs text-slate-400">Mon - Sun (8:00 AM - 10:00 PM IST)</div>
+                </div>
+              </div>
 
-                <div className="flex items-center gap-3 text-slate-300">
-                  <div className="w-9 h-9 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400">
-                    <MapPin className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-slate-400 uppercase font-mono">HQ Studio Location</div>
-                    <div className="font-bold text-white">Southern Province & Colombo, Sri Lanka</div>
-                  </div>
+              {/* Location */}
+              <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0">
+                  <MapPin className="w-6 h-6" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs text-sky-400 font-mono font-bold uppercase">Development Studio</div>
+                  <div className="text-sm font-bold text-white">Southern Province &amp; Colombo</div>
+                  <div className="text-xs text-slate-400">Sri Lanka &amp; Worldwide Remote</div>
                 </div>
               </div>
             </div>
+
+            <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800/80 flex items-center gap-3 text-xs text-slate-400">
+              <Globe className="w-4 h-4 text-ocean-400 shrink-0" />
+              <span>We work with international clients across Europe, Australia, UK &amp; Asia-Pacific.</span>
+            </div>
           </div>
 
-          {/* Right Column: Interactive Consultation Form */}
-          <div className="lg:col-span-7">
-            <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 sm:p-8 shadow-2xl relative">
-              {submitted ? (
-                <div className="py-12 text-center space-y-4">
-                  <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
-                    <CheckCircle2 className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white">Proposal Request Sent!</h3>
-                  <p className="text-slate-300 text-sm max-w-md mx-auto">
-                    Thank you, <span className="text-amber-400 font-bold">{formData.name}</span>. Your request for <span className="text-emerald-400 font-bold">{businessType}</span> was sent directly to <span className="text-sky-300 font-bold">info@paradisecrew.site</span>. We will review your project details and reply within 2 hours.
-                  </p>
-                  <button
-                    onClick={() => setSubmitted(false)}
-                    className="px-6 py-2.5 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold hover:bg-slate-700"
-                  >
-                    Submit Another Inquiry
-                  </button>
+          {/* Right Column: Project Proposal Form */}
+          <div className="lg:col-span-7 bg-slate-900/80 border border-slate-800 p-6 sm:p-8 rounded-3xl backdrop-blur-xl shadow-2xl">
+            {submitted ? (
+              <div className="py-12 text-center space-y-4">
+                <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto">
+                  <CheckCircle2 className="w-8 h-8" />
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <h3 className="text-2xl font-bold text-white">Project Consultation Form</h3>
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-                        Your Business Category
-                      </label>
-                      <select
-                        value={businessType}
-                        onChange={(e) => setBusinessType(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:border-ocean-500 focus:outline-none"
-                      >
-                        <option>Restaurant / Cafe / Beach Bar</option>
-                        <option>Hotel / Boutique Stay</option>
-                        <option>Scooter / Car Rental Shop</option>
-                        <option>Surf School & Activity Center</option>
-                        <option>Tour Agency & Safari Guide</option>
-                        <option>Private Driver & Taxi Transfer</option>
-                        <option>Shop / Souvenir Retail</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-                        Desired Project Scope
-                      </label>
-                      <select
-                        value={projectType}
-                        onChange={(e) => setProjectType(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:border-ocean-500 focus:outline-none"
-                      >
-                        <option>Web + Mobile Apps Suite</option>
-                        <option>QR Menu Ordering & Web App</option>
-                        <option>Direct Booking Web Platform</option>
-                        <option>iOS & Android Native Mobile Apps</option>
-                        <option>WhatsApp Automation & Custom SaaS</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-                        Your Full Name
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="e.g. Kasun Perera"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:border-ocean-500 focus:outline-none"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="kasun@yourdomain.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:border-ocean-500 focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-                      Phone Number / WhatsApp Number
-                    </label>
-                    <input
-                      type="tel"
-                      placeholder="+94 72 141 0369"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:border-ocean-500 focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-                      Project Goals & Key Features
-                    </label>
-                    <textarea
-                      rows={4}
-                      placeholder="Tell us about your business, specific requirements (e.g. QR digital menu, Stripe checkout, WhatsApp bot, GPS rental map), and target launch date..."
-                      value={formData.notes}
-                      onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:border-ocean-500 focus:outline-none"
-                    />
-                  </div>
-
-                  {errorMessage && (
-                    <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-medium text-center">
-                      {errorMessage}
-                    </div>
-                  )}
-
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full py-4 bg-gradient-to-r from-ocean-500 to-ocean-600 hover:from-ocean-400 hover:to-ocean-500 text-white font-bold rounded-2xl shadow-xl shadow-ocean-600/30 flex items-center justify-center gap-2 text-sm transition-all transform hover:-translate-y-0.5 disabled:opacity-50"
+                <h3 className="text-2xl font-bold text-white">Proposal Request Received!</h3>
+                <p className="text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
+                  Thank you! Our lead technical architect has received your project details and will review your scope right away.
+                </p>
+                <div className="pt-4 flex justify-center">
+                  <a
+                    href={getWhatsAppDirectLink()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl flex items-center gap-2 shadow-lg shadow-emerald-500/20"
                   >
-                    {loading ? (
+                    <MessageSquare className="w-4 h-4" />
+                    <span>Speed Up via WhatsApp</span>
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="space-y-1">
+                  <h3 className="text-xl font-bold text-white">Project Scope Form</h3>
+                  <p className="text-xs text-slate-400">
+                    Fill in your details below for a customized proposal and timeline estimate.
+                  </p>
+                </div>
+
+                {errorMessage && (
+                  <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium leading-relaxed">
+                    {errorMessage}
+                  </div>
+                )}
+
+                {/* Business Type Selector */}
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-slate-300 block">Select Your Industry / Business Type</label>
+                  <select
+                    value={businessType}
+                    onChange={(e) => setBusinessType(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-ocean-500"
+                  >
+                    <option value="Restaurant / Cafe / Beach Bar">Restaurant / Cafe / Beach Bar / Nightclub</option>
+                    <option value="Hotel / Villa / Resort">Hotel / Boutique Villa / Resort / Guest House</option>
+                    <option value="Scooter / Vehicle Rental">Scooter / Car / Bike Rental Business</option>
+                    <option value="Surf School & Watersports">Surf School / Watersports / Diving Center</option>
+                    <option value="Tour Operator & Agency">Tour Operator / Safari / Day Trip Agency</option>
+                    <option value="Private Driver & Transport">Private Driver / Airport Taxi Dispatch</option>
+                    <option value="Shop & Retail Outlet">Retail Shop / Clothing / Souvenir Store</option>
+                    <option value="Other Industry">Other Custom Business Software</option>
+                  </select>
+                </div>
+
+                {/* Scope Selection */}
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-slate-300 block">Target Software Package</label>
+                  <select
+                    value={projectType}
+                    onChange={(e) => setProjectType(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-ocean-500"
+                  >
+                    <option value="Web + Mobile Apps Suite">Complete Suite (Web + iOS/Android Mobile Apps)</option>
+                    <option value="Custom Web App Only">Custom Web Application / Booking Engine Only</option>
+                    <option value="iOS & Android Apps Only">Native / Hybrid iOS &amp; Android Apps Only</option>
+                    <option value="QR Menu & Order Bot">QR Menu Ordering &amp; WhatsApp Bot System</option>
+                    <option value="UI/UX Design & Prototype">UI/UX Design &amp; Clickable Prototype Only</option>
+                  </select>
+                </div>
+
+                {/* Inputs grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-300">Your Full Name *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Ruwan Silva"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-ocean-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-300">Email Address *</label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="ruwan@example.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-ocean-500"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-slate-300">WhatsApp / Phone Number</label>
+                  <input
+                    type="tel"
+                    placeholder="+94 72 141 0369"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-ocean-500"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-slate-300">Project Details &amp; Requirements</label>
+                  <textarea
+                    rows={4}
+                    placeholder="Tell us about your business, specific feature needs, current website/app (if any), and target launch timeline..."
+                    value={formData.notes}
+                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-ocean-500 resize-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-4 bg-gradient-to-r from-ocean-500 to-ocean-600 hover:from-ocean-400 hover:to-ocean-500 text-white font-bold rounded-xl shadow-xl shadow-ocean-600/30 flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                >
+                  {loading ? (
+                    <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                    ) : (
-                      <>
-                        <span>Submit Proposal Request to info@paradisecrew.site</span>
-                        <Send className="w-4 h-4" />
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
-            </div>
+                      <span>Sending Request...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5 text-amber-300" />
+                      <span>Submit Proposal Request</span>
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>

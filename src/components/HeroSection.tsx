@@ -5,16 +5,20 @@ import { ChevronRight, Sparkles, Smartphone, Globe, Calculator } from "lucide-re
 const Hero3DCanvas = lazy(() => import("./Hero3DCanvas"));
 
 const HeroSection = () => {
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth >= 1024;
+    }
+    return false;
+  });
 
   useEffect(() => {
-    // Only enable 3D canvas on desktop screens (>= 1024px)
-    const media = window.matchMedia("(min-width: 1024px)");
-    setIsDesktop(media.matches);
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
 
-    const listener = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-    media.addEventListener("change", listener);
-    return () => media.removeEventListener("change", listener);
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
