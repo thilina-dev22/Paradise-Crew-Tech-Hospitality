@@ -1,10 +1,22 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useState, useEffect } from "react";
 import { ChevronRight, Sparkles, Smartphone, Globe, Calculator } from "lucide-react";
 
-// Three.js is ~600KB — only load it on desktop where the canvas is shown
+// Three.js is ~525KB — only load it on desktop where the 3D canvas is actually displayed
 const Hero3DCanvas = lazy(() => import("./Hero3DCanvas"));
 
 const HeroSection = () => {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    // Only enable 3D canvas on desktop screens (>= 1024px)
+    const media = window.matchMedia("(min-width: 1024px)");
+    setIsDesktop(media.matches);
+
+    const listener = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    media.addEventListener("change", listener);
+    return () => media.removeEventListener("change", listener);
+  }, []);
+
   return (
     <section
       id="home"
@@ -82,12 +94,12 @@ const HeroSection = () => {
             {/* Trust highlights */}
             <div className="grid grid-cols-3 gap-3 pt-5 border-t border-slate-800/80 text-center lg:text-left">
               <div>
-                <div className="text-xl sm:text-2xl font-extrabold text-amber-400">QR & Web</div>
+                <div className="text-xl sm:text-2xl font-extrabold text-amber-400">QR &amp; Web</div>
                 <div className="text-[10px] sm:text-xs text-slate-400 font-medium">Digital Table Ordering</div>
               </div>
               <div>
-                <div className="text-xl sm:text-2xl font-extrabold text-sky-400">iOS & Android</div>
-                <div className="text-[10px] sm:text-xs text-slate-400 font-medium">Native & Web Apps</div>
+                <div className="text-xl sm:text-2xl font-extrabold text-sky-400">iOS &amp; Android</div>
+                <div className="text-[10px] sm:text-xs text-slate-400 font-medium">Native &amp; Web Apps</div>
               </div>
               <div>
                 <div className="text-xl sm:text-2xl font-extrabold text-emerald-400">0% Commission</div>
@@ -98,14 +110,18 @@ const HeroSection = () => {
 
           {/* Right Column: 3D Canvas + Info Card below — HIDDEN on mobile, shown lg+ */}
           <div className="hidden lg:flex lg:col-span-5 flex-col items-center gap-4">
-            {/* 3D WebGL Globe — full width, standalone. Lazy loaded — Three.js won't download on mobile */}
-            <div className="w-full">
-              <Suspense fallback={
-                <div className="w-full h-[260px] lg:h-[300px] rounded-xl bg-slate-900/40 border border-slate-800/50 animate-pulse" />
-              }>
-                <Hero3DCanvas />
-              </Suspense>
-            </div>
+            {/* 3D WebGL Globe — conditionally rendered ONLY on desktop so mobile never fetches Three.js */}
+            {isDesktop && (
+              <div className="w-full">
+                <Suspense
+                  fallback={
+                    <div className="w-full h-[260px] lg:h-[300px] rounded-xl bg-slate-900/40 border border-slate-800/50 animate-pulse" />
+                  }
+                >
+                  <Hero3DCanvas />
+                </Suspense>
+              </div>
+            )}
 
             {/* Info Card below the globe */}
             <div className="w-full p-5 rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-slate-800 shadow-2xl space-y-4 hover:border-ocean-500/40 transition-all">
@@ -146,7 +162,7 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Mobile-only visual card (no heavy 3D canvas) */}
+          {/* Mobile-only visual card (lightweight, zero 3D overhead) */}
           <div className="lg:hidden relative">
             <div className="relative rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
               <img
@@ -157,7 +173,7 @@ const HeroSection = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-4 grid grid-cols-2 gap-3 text-xs">
                 <div className="p-3 rounded-xl bg-slate-900/90 backdrop-blur border border-slate-800">
-                  <div className="text-slate-400 font-medium">QR Menu & Booking</div>
+                  <div className="text-slate-400 font-medium">QR Menu &amp; Booking</div>
                   <div className="text-base font-bold text-amber-400">+140% Revenue</div>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-900/90 backdrop-blur border border-slate-800">
