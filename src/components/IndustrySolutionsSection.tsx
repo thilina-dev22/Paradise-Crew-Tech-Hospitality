@@ -217,9 +217,9 @@ const IndustrySolutionsSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Vertical Tabs — swipeable horizontal scroll container */}
-        <div className="relative mb-10">
-          <div className="flex items-center gap-2.5 overflow-x-auto pb-3 pt-1 px-1 no-scrollbar snap-x snap-mandatory scroll-smooth">
+        {/* Vertical Tabs — centered on desktop, swipeable on mobile */}
+        <div className="relative mb-10 flex flex-col items-center">
+          <div className="flex items-center gap-2.5 overflow-x-auto pb-3 pt-1 px-1 no-scrollbar snap-x snap-mandatory scroll-smooth max-w-full">
             {solutions.map((item) => {
               const Icon = item.icon;
               const isActive = item.id === activeTab;
@@ -241,7 +241,7 @@ const IndustrySolutionsSection: React.FC = () => {
           </div>
 
           {/* Swipe indicator hint for mobile screens */}
-          <div className="sm:hidden flex items-center justify-end gap-1 text-[10px] text-slate-500 pt-1 font-mono">
+          <div className="sm:hidden flex items-center justify-end w-full gap-1 text-[10px] text-slate-500 pt-1 font-mono">
             <span>Swipe for more verticals</span>
             <ArrowRight className="w-3 h-3 text-ocean-400 animate-pulse" />
           </div>

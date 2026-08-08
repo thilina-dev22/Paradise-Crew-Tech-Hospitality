@@ -134,9 +134,9 @@ const AppShowcaseSection: React.FC = () => {
           </p>
         </div>
 
-        {/* App Selector Tabs — swipeable horizontal scroll container */}
-        <div className="relative mb-10">
-          <div className="flex items-center gap-2.5 overflow-x-auto pb-3 pt-1 px-1 no-scrollbar snap-x snap-mandatory scroll-smooth">
+        {/* App Selector Tabs — centered on desktop, swipeable on mobile */}
+        <div className="relative mb-10 flex justify-center">
+          <div className="flex items-center gap-2.5 overflow-x-auto pb-3 pt-1 px-1 no-scrollbar snap-x snap-mandatory scroll-smooth max-w-full">
             {appItems.map((app) => {
               const isActive = app.id === selectedApp;
               return (
